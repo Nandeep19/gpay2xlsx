@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPay to XLSX Converter</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tesseract.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <!-- SheetJS -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --container-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--container-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #a78bfa;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .data-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .data-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .data-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+        
+        .data-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .raw-text {
+            margin-top: 1.5rem;
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .toggle-raw {
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        
+        .file-list {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.05);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .file-status {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .file-status.success { color: var(--success); }
+        .file-status.error { color: var(--danger); }
+        .file-status.processing { color: var(--primary); }
+        
+        .remove-file {
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .remove-file:hover {
+            color: var(--danger);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>GPay to XLSXConverter</h1>
+        <p>Intelligently extract transaction details from screenshots</p>
+    </div>
+
+    <div class="container">
+        <!-- Step 1: Upload -->
+        <div id="upload-step">
+            <div class="upload-area" id="drop-zone">
+                <i class="ri-image-add-line upload-icon"></i>
+                <h3 class="upload-text">Drag & Drop transaction statements</h3>
+                <p class="upload-subtext">or click to browse from your device (PDF, JPEG, PNG)</p>
+                <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp, application/pdf" multiple>
+            </div>
+            
+            <div class="file-list" id="file-list"></div>
+
+            <div style="margin-top: 1.5rem;">
+                <button class="btn btn-primary" id="process-btn" style="display: none;">
+                    <i class="ri-ai-generate"></i> Process Images
+                </button>
+            </div>
+            
+            <div class="progress-container" id="progress-container">
+                <div class="progress-header">
+                    <span id="progress-status">Initializing AI engine...</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Results -->
+        <div class="result-section" id="result-step">
+            <div class="header" style="margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.5rem;">Extracted Data</h2>
+                <p style="font-size: 0.9rem;">Review and edit the extracted information before exporting</p>
+            </div>
+
+            <!-- Action Buttons Above Results -->
+            <div class="actions" style="margin-top: 0; margin-bottom: 2rem;">
+                <button class="btn btn-secondary" id="back-btn" style="flex: 1;">
+                    <i class="ri-arrow-left-line"></i> Upload More
+                </button>
+                <button class="btn btn-success" id="export-btn" style="flex: 2;">
+                    <i class="ri-file-excel-2-line"></i> Export to XLSX
+                </button>
+            </div>
+
+            <div id="results-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileListContainer = document.getElementById('file-list');
+        const processBtn = document.getElementById('process-btn');
+        const progressContainer = document.getElementById('progress-container');
+        const progressStatus = document.getElementById('progress-status');
+        const progressFill = document.getElementById('progress-fill');
+        const progressPercent = document.getElementById('progress-percent');
+        
+        const uploadStep = document.getElementById('upload-step');
+        const resultStep = document.getElementById('result-step');
+        const resultsContainer = document.getElementById('results-container');
+        const backBtn = document.getElementById('back-btn');
+        const exportBtn = document.getElementById('export-btn');
+
+        // State
+        let uploadedFiles = [];
+        let extractedData = [];
+
+        // Event Listeners for File Upload
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            const newFiles = Array.from(files).filter(file => file.type.startsWith('image/') || file.type === 'application/pdf');
+            
+            newFiles.forEach(file => {
+                const id = Math.random().toString(36).substring(7);
+                uploadedFiles.push({
+                    id,
+                    file,
+                    status: 'pending',
+                    data: null
+                });
+            });
+            
+            renderFileList();
+            
+            if (uploadedFiles.length > 0) {
+                processBtn.style.display = 'inline-flex';
+            }
+        }
+
+        window.removeFile = function(id) {
+            uploadedFiles = uploadedFiles.filter(f => f.id !== id);
+            renderFileList();
+            if (uploadedFiles.length === 0) {
+                processBtn.style.display = 'none';
+            }
+        };
+
+        function renderFileList() {
+            fileListContainer.innerHTML = '';
+            uploadedFiles.forEach(fileObj => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                
+                let icon = 'ri-image-line';
+                let statusClass = '';
+                let statusText = 'Ready';
+                
+                if (fileObj.status === 'processing') {
+                    icon = 'ri-loader-4-line ri-spin';
+                    statusClass = 'processing';
+                    statusText = 'Processing...';
+                } else if (fileObj.status === 'success') {
+                    icon = 'ri-checkbox-circle-line';
+                    statusClass = 'success';
+                    statusText = 'Extracted';
+                } else if (fileObj.status === 'error') {
+                    icon = 'ri-error-warning-line';
+                    statusClass = 'error';
+                    statusText = 'Failed';
+                }
+
+                item.innerHTML = `
+                    <div class="file-info">
+                        <i class="${icon} ${statusClass}"></i>
+                        <div>
+                            <div class="file-name">${fileObj.file.name}</div>
+                            <div class="file-status ${statusClass}">${statusText}</div>
+                        </div>
+                    </div>
+                    ${fileObj.status === 'pending' || fileObj.status === 'error' ? 
+                        `<i class="ri-close-line remove-file" onclick="removeFile('${fileObj.id}')" title="Remove"></i>` : 
+                        ''
+                    }
+                `;
+                fileListContainer.appendChild(item);
+            });
+        }
+
+        // Processing Logic
+        processBtn.addEventListener('click', async () => {
+            processBtn.style.display = 'none';
+            progressContainer.style.display = 'block';
+            dropZone.style.display = 'none';
+            
+            const filesToProcess = uploadedFiles.filter(f => f.status === 'pending' || f.status === 'error');
+            
+            let completed = 0;
+            
+            for (let i = 0; i < filesToProcess.length; i++) {
+                const fileObj = filesToProcess[i];
+                fileObj.status = 'processing';
+                renderFileList();
+                
+                progressStatus.innerText = `Processing file ${i + 1} of ${filesToProcess.length}...`;
+                
+                try {
+                    if (fileObj.file.type === 'application/pdf') {
+                        const text = await processPDFWithPDFJS(fileObj.file, (progress) => {
+                            const fileProgress = progress * 100;
+                            const overallProgress = ((completed / filesToProcess.length) * 100) + (fileProgress / filesToProcess.length);
+                            progressFill.style.width = `${overallProgress}%`;
+                            progressPercent.innerText = `${Math.round(overallProgress)}%`;
+                        });
+                        
+                        let transactions = [];
+                        
+                        const detailedTxns = parseGPayDetailedTransactions(text, fileObj.file.name);
+                        if (detailedTxns.length > 0) {
+                            transactions = detailedTxns;
+                        } else {
+                            const pages = text.split('___PAGE_BREAK___');
+                            for (let p = 0; p < pages.length; p++) {
+                                const pageText = pages[p].trim();
+                                if (!pageText) continue;
+                                
+                                let pageTransactions = parsePDFStatement(pageText, `${fileObj.file.name} (Pg ${p+1})`);
+                                if (pageTransactions.length === 0) {
+                                    const tx = parseExtractedText(pageText, `${fileObj.file.name} (Pg ${p+1})`);
+                                    if (tx.amount !== '0.00' || tx.receiver !== 'Unknown') {
+                                        pageTransactions.push(tx);
+                                    }
+                                }
+                                transactions.push(...pageTransactions);
+                            }
+                        }
+                        
+                        if (transactions.length === 0) throw new Error("No transactions found in PDF");
+                        fileObj.status = 'success';
+                        fileObj.data = transactions;
+                    } else {
+                        const result = await processImageWithTesseract(fileObj.file, (progress) => {
+                            const fileProgress = progress * 100;
+                            const overallProgress = ((completed / filesToProcess.length) * 100) + (fileProgress / filesToProcess.length);
+                            progressFill.style.width = `${overallProgress}%`;
+                            progressPercent.innerText = `${Math.round(overallProgress)}%`;
+                        });
+                        
+                        fileObj.status = 'success';
+                        fileObj.data = [parseExtractedText(result.data.text, fileObj.file.name)];
+                    }
+                    
+                    extractedData.push(...fileObj.data);
+                    
+                } catch (error) {
+                    console.error("Processing Error:", error);
+                    fileObj.status = 'error';
+                }
+                
+                completed++;
+                renderFileList();
+            }
+            
+            if (extractedData.length > 0) {
+                showResults();
+            } else {
+                processBtn.style.display = 'inline-flex';
+                progressContainer.style.display = 'none';
+                dropZone.style.display = 'block';
+                alert('Failed to extract data from the selected files.');
+            }
+        });
+
+        async function processPDFWithPDFJS(file, onProgress) {
+            onProgress(0.1); 
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+            let fullText = '';
+            
+            for (let i = 1; i <= pdf.numPages; i++) {
+                onProgress(0.1 + (0.9 * (i / pdf.numPages)));
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                
+                const items = textContent.items;
+                let lines = [];
+                for (const item of items) {
+                    let added = false;
+                    for (let line of lines) {
+                        if (Math.abs(line.y - item.transform[5]) < 4) {
+                            line.items.push(item);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added) {
+                        lines.push({ y: item.transform[5], items: [item] });
+                    }
+                }
+                
+                lines.sort((a, b) => b.y - a.y);
+                for (let line of lines) {
+                    line.items.sort((a, b) => a.transform[4] - b.transform[4]);
+                    fullText += line.items.map(i => i.str).join(' ') + '\n';
+                }
+                fullText += '\n___PAGE_BREAK___\n';
+            }
+            return fullText;
+        }
+
+        function parseGPayDetailedTransactions(fullText, filename) {
+            if (!/Google\s*Transaction\s*ID\s*:/i.test(fullText)) return [];
+
+            function extractValue(text, key) {
+                const pattern = key.split(' ').join('\\s*') + '\\s*:\\s*(.*)';
+                const regex = new RegExp(pattern, "i");
+                const match = text.match(regex);
+                return match ? match[1].trim().replace(/\r/g, "") : "";
+            }
+
+            const transactions = [];
+            const parts = fullText.split(/Google\s*Transaction\s*ID\s*:/i);
+
+            for (let i = 1; i < parts.length; i++) {
+                const txnText = "Google Transaction ID:" + parts[i];
+
+                const googleTxId = extractValue(txnText, "Google Transaction ID");
+                const upiRrn = extractValue(txnText, "UPI RRN");
+                const orderType = extractValue(txnText, "Order Type");
+                let amount = extractValue(txnText, "Amount");
+                const status = extractValue(txnText, "Status");
+                const creationTime = extractValue(txnText, "Creation Time");
+                const updateTime = extractValue(txnText, "Update Time");
+                const payerIpAddress = extractValue(txnText, "Payer IP Address");
+                const userPhoneNumber = extractValue(txnText, "User Phone Number");
+                const userVPA = extractValue(txnText, "User VPA");
+                const peerPhoneNumber = extractValue(txnText, "Peer Phone Number");
+                const peerVPA = extractValue(txnText, "Peer VPA");
+                const userIFSC = extractValue(txnText, "User IFSC");
+                const peerIFSC = extractValue(txnText, "Peer IFSC");
+                const peerAccountNumber = extractValue(txnText, "Peer Account Number");
+
+                let cleanAmount = amount.replace(/[^\d\.]/g, '');
+
+                let receiver = peerVPA || peerAccountNumber || orderType || "Unknown";
+                let type = "Debit"; 
+                if (/receive|credit/i.test(orderType)) {
+                    type = "Credit";
+                }
+
+                transactions.push({
+                    id: Math.random().toString(36).substring(7),
+                    filename: filename,
+                    receiver: receiver,
+                    amount: cleanAmount || "0.00",
+                    date: creationTime || new Date().toLocaleDateString(),
+                    transactionId: googleTxId || upiRrn || "Not found",
+                    type: type,
+                    raw: txnText,
+                    
+                    "Google Transaction ID": googleTxId,
+                    "UPI RRN": upiRrn,
+                    "Order Type": orderType,
+                    "Status": status,
+                    "Creation Time": creationTime,
+                    "Update Time": updateTime,
+                    "Payer IP Address": payerIpAddress,
+                    "User Phone Number": userPhoneNumber,
+                    "User VPA": userVPA,
+                    "Peer Phone Number": peerPhoneNumber,
+                    "Peer VPA": peerVPA,
+                    "User IFSC": userIFSC,
+                    "Peer IFSC": peerIFSC,
+                    "Peer Account Number": peerAccountNumber,
+                });
+            }
+            return transactions;
+        }
+
+        function parsePDFStatement(pageText, filename) {
+            const lines = pageText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            let transactions = [];
+            
+            // Allow commas after months (e.g. 03 Feb, 2026)
+            const dateRegex = /^[\s\d]*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s\,]+\d{2,4})/i;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (dateRegex.test(line)) {
+                    const dateMatch = line.match(dateRegex);
+                    const date = dateMatch[1];
+                    
+                    let txId = '';
+                    const txMatch = line.match(/\b(\d{12})\b/);
+                    if (txMatch) {
+                        txId = txMatch[1];
+                    } else {
+                        // Look ahead up to 3 lines for a 12 digit transaction ID
+                        for (let j = 1; j <= 3 && i + j < lines.length; j++) {
+                            const aheadLine = lines[i + j];
+                            // Stop if we hit another date line (new transaction)
+                            if (dateRegex.test(aheadLine)) break;
+                            const aheadTxMatch = aheadLine.match(/\b(\d{12})\b/);
+                            if (aheadTxMatch) {
+                                txId = aheadTxMatch[1];
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const amtMatches = [...line.matchAll(/(?:₹|rs\.?|inr|r\$|\?|\$)\s*([\d,]+(?:\.\d{2})?)/gi)];
+                    let amount = '0.00';
+                    let amountStrToRemoveList = [];
+                    if (amtMatches.length > 0) {
+                        amount = amtMatches[amtMatches.length - 1][1].replace(/,/g, '');
+                        amountStrToRemoveList.push(amtMatches[amtMatches.length - 1][0]);
+                    } else {
+                        const decMatches = [...line.matchAll(/([\d,]+\.\d{2})/g)];
+                        if (decMatches.length > 0) {
+                            amount = decMatches[decMatches.length - 1][1].replace(/,/g, '');
+                            amountStrToRemoveList.push(decMatches[decMatches.length - 1][0]);
+                        } else {
+                            const lastWordMatch = line.match(/\s([\d,]+)$/);
+                            if (lastWordMatch) {
+                                amount = lastWordMatch[1].replace(/,/g, '');
+                                amountStrToRemoveList.push(lastWordMatch[0]);
+                            } else {
+                                continue; 
+                            }
+                        }
+                    }
+                    
+                    let desc = line.replace(dateRegex, '').trim();
+                    if (txId) desc = desc.replace(txId, '');
+                    for (let a of amountStrToRemoveList) desc = desc.replace(a, '');
+                    
+                    let type = 'Debit';
+                    if (/CR|CREDIT|RECEIVED/i.test(line)) type = 'Credit';
+                    
+                    desc = desc.replace(/UPI\/|NEFT\/|RTGS\/|IMPS\/|DR|CR/gi, '');
+                    let receiver = desc.trim();
+                    
+                    if (receiver && amount !== '0.00') {
+                        const strippedAmt = amount.replace(/\.00$/, '');
+                        const amtRegex = new RegExp('[\\\\s]*' + strippedAmt + '$');
+                        receiver = receiver.replace(amtRegex, '').trim();
+                    }
+                    
+                    if (receiver.length > 40) receiver = receiver.substring(0, 40) + '...';
+                    
+                    // Gather raw lines to show in UI
+                    let rawBlock = line;
+                    for (let j = 1; j <= 4 && i + j < lines.length; j++) {
+                        if (dateRegex.test(lines[i + j])) break;
+                        rawBlock += '\n' + lines[i + j];
+                    }
+                    
+                    transactions.push({
+                        id: Math.random().toString(36).substring(7),
+                        filename: filename,
+                        receiver: receiver || 'Unknown',
+                        amount: amount || '0.00',
+                        date: date,
+                        transactionId: txId || 'Not found',
+                        type: type,
+                        raw: rawBlock
+                    });
+                }
+            }
+            return transactions;
+        }
+
+        async function processImageWithTesseract(file, onProgress) {
+            const tempWorker = await Tesseract.createWorker('eng', 1, {
+                workerPath: 'https://unpkg.com/tesseract.js@v5.0.0/dist/worker.min.js',
+                langPath: 'https://tessdata.projectnaptha.com/4.0.0',
+                corePath: 'https://unpkg.com/tesseract.js-core@v5.0.0',
+                logger: m => {
+                    if (m.status === 'recognizing text') {
+                        onProgress(m.progress);
+                    }
+                }
+            });
+            const ret = await tempWorker.recognize(file);
+            await tempWorker.terminate();
+            return ret;
+        }
+
+        function parseExtractedText(fullText, filename) {
+            const lines = fullText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            
+            let amount = '';
+            let date = '';
+            let txId = '';
+            let receiver = '';
+            
+            // 1. Transaction ID
+            for (const line of lines) {
+                const match = line.match(/(?:UPI transaction ID|Transaction ID|Ref No|UTR|ID)[\s\:\-]*(\d{12})/i) ||
+                              line.match(/\b(\d{12})\b/);
+                if (match) {
+                    txId = match[1];
+                    break;
+                }
+            }
+
+            // 2. Date
+            for (const line of lines) {
+                const match = line.match(/\b(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{2,4})\b/i) || 
+                              line.match(/\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})\b/);
+                if (match) {
+                    date = match[1];
+                    break;
+                }
+            }
+            if (!date) {
+                for (const line of lines) {
+                    const match = line.match(/(?:time|date)[\s\:\-]*(\d{1,2}[\/\-\s]\w+[\/\-\s]\d{2,4})/i);
+                    if (match) {
+                        date = match[1];
+                        break;
+                    }
+                }
+            }
+
+            // 3. Amount
+            for (const line of lines) {
+                // Look for explicit currency symbols, OCR sometimes reads rupee as ?, r, z, etc.
+                const amtMatch = line.match(/(?:₹|rs\.?|inr|z|r\$|\?|\$)\s*([\d,]+\.?\d*)/i);
+                if (amtMatch) {
+                    const parsedAmt = amtMatch[1].replace(/,/g, '');
+                    if (parseFloat(parsedAmt) > 0) {
+                        amount = parsedAmt;
+                        break;
+                    }
+                }
+            }
+            if (!amount) {
+                // Fallback: look for a line that's just a decimal number
+                for (const line of lines) {
+                    const decMatch = line.match(/^[\s\W]*([\d,]+\.\d{2})[\s\W]*$/);
+                    if (decMatch) {
+                        amount = decMatch[1].replace(/,/g, '');
+                        break;
+                    }
+                }
+            }
+            if (!amount) {
+                 // Fallback: look for lines that have 'paid' or 'sent' and maybe contain a number
+                 for(const line of lines) {
+                     if(/(paid|sent|amount|₹)/i.test(line) && /\d/.test(line)) {
+                         const match = line.match(/([\d,]{2,}\.?\d*)/);
+                         if (match) {
+                             amount = match[1].replace(/,/g, '');
+                             if (parseFloat(amount) > 0 && amount.length < 9) break;
+                         }
+                     }
+                 }
+            }
+
+            // Strong fallback for large fonts (just numbers, no symbols)
+            if (!amount || amount === '0.00') {
+                for (let i = 0; i < Math.min(10, lines.length); i++) {
+                    const cleanStr = lines[i].replace(/[^\w]/g, '');
+                    const cleanNum = lines[i].replace(/[^\d]/g, '');
+                    if (cleanNum && cleanNum.length > 0 && cleanNum.length === cleanStr.length && lines[i].length < 10 && !lines[i].includes(':') && !lines[i].includes('/')) {
+                        amount = cleanNum;
+                        break;
+                    }
+                }
+            }
+
+            // 4. Receiver
+            const nameKeywords = ['paid to', 'paying', 'sent to', 'transfer to', 'receiver', 'received from', 'from', 'to', 'name'];
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].toLowerCase();
+                for (const kw of nameKeywords) {
+                    if (line.includes(kw)) {
+                        let possibleName = lines[i].substring(line.indexOf(kw) + kw.length).trim();
+                        possibleName = possibleName.replace(/^[-:;,.\s]+/, '').trim(); 
+                        if (possibleName && possibleName.length > 2) {
+                            receiver = possibleName;
+                            break;
+                        } else if (i + 1 < lines.length) {
+                            receiver = lines[i+1].trim();
+                            break;
+                        }
+                    }
+                }
+                if (receiver) break;
+            }
+
+            // If no keyword found, guess the receiver from the first couple lines
+            if (!receiver) {
+                for (let i = 0; i < Math.min(8, lines.length); i++) {
+                    const line = lines[i];
+                    // Name usually doesn't have numbers in it, and isn't a known generic text
+                    if (!/\d/.test(line) && 
+                        line.length > 3 && 
+                        !/success|payment|upi|bank|gpay|google|app|transaction|processing|completed|time|date/i.test(line)) {
+                        receiver = line;
+                        break;
+                    }
+                }
+            }
+
+            // Type
+            let type = 'Debit';
+            const fullTextLower = fullText.toLowerCase();
+            if (fullTextLower.includes('received') || fullTextLower.includes('credited')) {
+                type = 'Credit';
+            }
+
+            // Clean up and format Receiver name (Title Case)
+            if (receiver) {
+                const embeddedAmtMatch = receiver.match(/(?:₹|rs\.?|inr|r\$|\?|\$)\s*([\d,]+\.?\d*)/i);
+                if (embeddedAmtMatch && (!amount || amount === '0.00')) {
+                    amount = embeddedAmtMatch[1].replace(/,/g, '');
+                }
+                
+                receiver = receiver.replace(/(?:₹|rs\.?|inr|r\$|\?|\$)\s*[\d,]+\.?\d*/gi, '').trim();
+                receiver = receiver.replace(/@.*$/, '').trim();
+                
+                if (amount && amount !== '0.00') {
+                    const strippedAmt = amount.replace(/\.00$/, '');
+                    const amtRegex = new RegExp('[\\\\s]*' + strippedAmt + '$');
+                    receiver = receiver.replace(amtRegex, '').trim();
+                }
+
+                receiver = receiver.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+            }
+
+            return {
+                id: Math.random().toString(36).substring(7),
+                filename: filename,
+                receiver: receiver || 'Unknown',
+                amount: amount || '0.00',
+                date: date || new Date().toLocaleDateString(),
+                transactionId: txId || 'Not found',
+                type: type,
+                raw: fullText
+            };
+        }
+
+        window.toggleRaw = function(id) {
+            const el = document.getElementById(`raw-${id}`);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        };
+
+        function showResults() {
+            uploadStep.style.display = 'none';
+            resultStep.style.display = 'block';
+            
+            resultsContainer.innerHTML = '';
+            
+            extractedData.forEach((data) => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `
+                    <h3>${data.filename}</h3>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <span class="data-label">Receiver / Paid To</span>
+                            <input type="text" class="data-input" id="receiver-${data.id}" value="${data.receiver}">
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Type</span>
+                            <select class="data-input" id="type-${data.id}">
+                                <option value="Debit" ${data.type === 'Debit' ? 'selected' : ''}>Debit (-)</option>
+                                <option value="Credit" ${data.type === 'Credit' ? 'selected' : ''}>Credit (+)</option>
+                            </select>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Amount (₹)</span>
+                            <input type="text" class="data-input" id="amount-${data.id}" value="${data.amount}">
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Date</span>
+                            <input type="text" class="data-input" id="date-${data.id}" value="${data.date}">
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Transaction ID</span>
+                            <input type="text" class="data-input" id="txId-${data.id}" value="${data.transactionId}">
+                        </div>
+                    </div>
+                    <div class="toggle-raw" onclick="toggleRaw('${data.id}')">
+                        View Raw OCR Text
+                    </div>
+                    <div class="raw-text" id="raw-${data.id}">${data.raw}</div>
+                `;
+                resultsContainer.appendChild(card);
+            });
+        }
+
+        // Export to XLSX
+        exportBtn.addEventListener('click', () => {
+            const hasEnhancedFields = extractedData.some(d => d['Google Transaction ID']);
+
+            const finalData = extractedData.map(data => {
+                let result = {};
+
+                if (hasEnhancedFields && data['Google Transaction ID']) {
+                    result['Google Transaction ID'] = data['Google Transaction ID'] || '';
+                    result['UPI RRN'] = data['UPI RRN'] || '';
+                    result['Order Type'] = data['Order Type'] || '';
+                    result['Amount'] = document.getElementById(`amount-${data.id}`).value;
+                    result['Status'] = data['Status'] || '';
+                    result['Creation Time'] = data['Creation Time'] || '';
+                    result['Update Time'] = data['Update Time'] || '';
+                    result['Payer IP Address'] = data['Payer IP Address'] || '';
+                    result['User Phone Number'] = data['User Phone Number'] || '';
+                    result['User VPA'] = data['User VPA'] || '';
+                    result['Peer Phone Number'] = data['Peer Phone Number'] || '';
+                    result['Peer VPA'] = data['Peer VPA'] || '';
+                    result['User IFSC'] = data['User IFSC'] || '';
+                    result['Peer IFSC'] = data['Peer IFSC'] || '';
+                    result['Peer Account Number'] = data['Peer Account Number'] || '';
+                } else {
+                    result = {
+                        'Source File': data.filename,
+                        'Receiver / Name': document.getElementById(`receiver-${data.id}`).value,
+                        'Amount': document.getElementById(`amount-${data.id}`).value,
+                        'Type': document.getElementById(`type-${data.id}`).value,
+                        'Date': document.getElementById(`date-${data.id}`).value,
+                        'Transaction ID': document.getElementById(`txId-${data.id}`).value
+                    };
+                }
+
+                return result;
+            });
+
+            const ws = XLSX.utils.json_to_sheet(finalData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "GPay Transactions");
+            
+            if (finalData.length > 0) {
+                const colWidths = Object.keys(finalData[0]).map(k => ({ wch: Math.max(k.length + 5, 20) }));
+                ws['!cols'] = colWidths;
+            }
+
+            XLSX.writeFile(wb, `GPay_Transactions_${new Date().getTime()}.xlsx`);
+        });
+
+        // Back / Reset
+        backBtn.addEventListener('click', () => {
+            uploadStep.style.display = 'block';
+            resultStep.style.display = 'none';
+            dropZone.style.display = 'block';
+            progressContainer.style.display = 'none';
+            processBtn.style.display = 'inline-flex';
+            
+            uploadedFiles = uploadedFiles.filter(f => f.status !== 'success');
+            renderFileList();
+            
+            if(uploadedFiles.length === 0) {
+                processBtn.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+</html>
