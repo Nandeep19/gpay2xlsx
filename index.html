@@ -17,13 +17,16 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --container-bg: rgba(30, 41, 59, 0.7);
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg-color: #050b18;
+            --panel-bg: rgba(13, 23, 42, 0.96);
+            --surface: rgba(255,255,255,0.05);
+            --surface-strong: rgba(255,255,255,0.1);
+            --border-color: rgba(255,255,255,0.08);
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
+            --text-muted: rgba(248,250,252,0.72);
+            --primary: #ff6b35;
+            --primary-soft: rgba(255,107,53,0.14);
+            --secondary: #3b82f6;
             --success: #10b981;
             --danger: #ef4444;
         }
@@ -35,88 +38,136 @@
             font-family: 'Inter', sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
-            background-attachment: fixed;
+            background: radial-gradient(circle at top, rgba(59,130,246,0.14), transparent 20%),
+                        radial-gradient(circle at 20% 15%, rgba(255,107,53,0.1), transparent 20%),
+                        linear-gradient(180deg, #060c18 0%, #050815 100%);
+            color: var(--text-main);
+            padding: 6.5rem 1.25rem 1.5rem;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        .container {
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             width: 100%;
-            max-width: 800px;
-            background: var(--container-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+            z-index: 999;
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 26px 60px rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        .upload-area {
-            border: 2px dashed var(--border-color);
-            border-radius: 1rem;
-            padding: 3rem 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        .topbar-inner {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
         }
 
-        .upload-area:hover, .upload-area.dragover {
-            border-color: var(--primary);
-            background: rgba(59, 130, 246, 0.05);
+        .topbar.scrolled .topbar-inner {
+            padding: 0.55rem 1rem;
+            transition: padding 0.25s ease;
         }
 
-        .upload-icon {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            min-width: 220px;
         }
 
-        .upload-text {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
+        .brand-logo {
+            width: 180px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 1.4rem;
+            background: transparent;
+            padding: 0;
+            border: none;
+            display: block;
         }
 
-        .upload-subtext {
-            color: var(--text-muted);
+        .brand-text {
+            display: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.3rem;
+            color: rgba(248,250,252,0.85);
             font-size: 0.9rem;
         }
 
-        #file-input {
+        .nav-links a {
+            color: rgba(248,250,252,0.82);
+            padding: 0.45rem 0.6rem;
+            border-radius: 999px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .menu-toggle {
             display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.08);
+            color: rgba(248,250,252,0.9);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .nav-open .nav-links {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(4, 10, 23, 0.98);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 1rem 1.25rem 1.25rem;
+            gap: 1rem;
+            z-index: 998;
+        }
+
+        .nav-open .topbar-inner {
+            flex-wrap: wrap;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -124,274 +175,867 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            border-radius: 999px;
             border: none;
-            outline: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-default {
+            background: rgba(255,255,255,0.05);
+            color: rgba(248,250,252,0.88);
+            padding: 0.85rem 1.25rem;
+        }
+
+        .btn-default:hover {
+            background: rgba(255,255,255,0.1);
         }
 
         .btn-primary {
-            background: var(--primary);
-            color: white;
-            width: 100%;
+            background: linear-gradient(135deg, var(--primary), #d14b28);
+            color: #ffffff;
+            padding: 0.72rem 1.25rem;
+            box-shadow: 0 16px 32px rgba(255,107,53,0.16);
         }
 
         .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
-        .btn-primary:active {
-            transform: translateY(0);
+        .page-content {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            padding-top: 1rem;
         }
-        
-        .btn-success {
-            background: var(--success);
-            color: white;
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+            justify-items: center;
+            text-align: center;
+            padding: 0.5rem 0 0;
+        }
+
+        .hero-copy {
+            max-width: 840px;
             width: 100%;
         }
 
-        .btn-success:hover {
-            background: #059669;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.75rem 1rem;
+            border-radius: 999px;
+            background: rgba(255,107,53,0.14);
+            color: #ffbfa5;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,107,53,0.22);
         }
 
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
+        .hero-badge::before {
+            content: '';
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: var(--primary);
         }
 
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.2);
+        .hero-copy h1 {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            margin-bottom: 1.5rem;
         }
 
-        .progress-container {
-            display: none;
+        .hero-copy h1 span {
+            color: var(--primary);
+        }
+
+        .hero-copy p {
+            color: rgba(248,250,252,0.75);
+            font-size: 1.05rem;
+            line-height: 1.9;
+            max-width: 680px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-panel {
+            width: min(880px, 100%);
+            background: rgba(10, 18, 33, 0.96);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            box-shadow: 0 45px 120px rgba(0,0,0,0.3);
+            margin: 0 auto;
+        }
+
+        .upload-card {
+            position: relative;
+            background:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+                rgba(10, 16, 30, 0.85);
+            background-size: 28px 28px, 28px 28px, 100% 100%;
+            border: 1.5px dashed rgba(255,255,255,0.12);
+            border-radius: 1.5rem;
+            padding: 3rem 2rem 2.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            display: grid;
+            gap: 0.75rem;
+            justify-items: center;
+            width: 100%;
+            max-width: 760px;
+            overflow: hidden;
+            min-height: auto;
+            align-items: center;
+            box-shadow: none;
+        }
+
+        .upload-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(59,130,246,0.04), transparent 65%);
+            pointer-events: none;
+        }
+
+        .upload-card:hover {
+            border-color: rgba(255,255,255,0.22);
+            background:
+                linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+                rgba(12, 20, 38, 0.9);
+            background-size: 28px 28px, 28px 28px, 100% 100%;
+        }
+
+        .upload-card .upload-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.8rem;
+            height: 3.8rem;
+            border-radius: 1.1rem;
+            background: rgba(255,255,255,0.06);
+            color: rgba(200, 210, 230, 0.7);
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .upload-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.15rem;
+            color: rgba(248,250,252,0.92);
+            font-weight: 600;
+        }
+
+        .upload-card p {
+            color: rgba(248,250,252,0.48);
+            line-height: 1.6;
+            margin-bottom: 0;
+            max-width: 420px;
+            font-size: 0.9rem;
+        }
+
+        .upload-types {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.6rem;
+        }
+
+        .upload-types span {
+            padding: 0.45rem 1rem;
+            border-radius: 0.6rem;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(248,250,252,0.7);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+        }
+
+        .upload-card input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-footer {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1rem 1.1rem;
+            border-radius: 1.25rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: rgba(248,250,252,0.82);
+            font-size: 0.92rem;
+            justify-content: center;
+        }
+
+        .hero-chip i {
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        .section-heading {
+            margin-top: 3rem;
+            max-width: 720px;
+            scroll-margin-top: 6.5rem;
+        }
+
+        section {
+            scroll-margin-top: 6.5rem;
+        }
+
+        .section-heading h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-heading p {
+            color: rgba(248,250,252,0.72);
+            line-height: 1.8;
+            max-width: 760px;
+        }
+
+        .section-heading.has-watermark {
+            position: relative;
+            overflow: visible;
+        }
+
+        .watermark-text {
+            position: absolute;
+            right: -560px;
+            top: 55%;
+            transform: translateY(-50%);
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: rgba(180, 195, 230, 0.06);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            line-height: 1;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.5rem;
+            padding: 1.75rem;
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+            min-height: 220px;
+            overflow-wrap: anywhere;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.16);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .feature-card span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.6rem;
+            max-width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 1rem;
+            background: rgba(255,255,255,0.08);
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: rgba(248,250,252,0.72);
+            line-height: 1.85;
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: 1.3fr 0.9fr;
+            gap: 1.25rem;
+            margin-top: 6rem;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 2rem;
+            padding: 2rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .info-card p {
+            color: rgba(248,250,252,0.74);
+            line-height: 1.85;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .mini-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.35rem;
+            padding: 1.5rem;
+            min-height: 120px;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .mini-card h4 {
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        .mini-card p {
+            color: rgba(248,250,252,0.72);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .mini-card.small {
+            text-align: center;
+            place-content: center;
+        }
+
+        .mini-card .stat {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 3rem auto 0;
+            max-width: 1200px;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            color: rgba(248,250,252,0.68);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links a {
+            color: rgba(248,250,252,0.72);
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .deck {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
             margin-top: 1.5rem;
         }
 
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        .deck-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.2rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.25rem;
+            color: rgba(248,250,252,0.78);
         }
 
-        .progress-bar-bg {
+        .deck-item i {
+            font-size: 1.3rem;
+            color: var(--secondary);
+        }
+
+        .deck-item span {
+            line-height: 1.5;
+        }
+
+        .upload-progress {
+            display: none;
+            margin-top: 1.5rem;
+            gap: 0.85rem;
             width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
+        }
+
+        .upload-progress.active {
+            display: grid;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.75rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
             overflow: hidden;
         }
 
-        .progress-bar-fill {
+        .progress-fill {
             height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.3s ease;
+            width: 0;
+            background: linear-gradient(135deg, var(--primary), #ff8a5d);
+            border-radius: 999px;
+            transition: width 0.25s ease;
         }
 
-        .result-section {
-            display: none;
-            margin-top: 2rem;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .result-card {
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .result-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            color: #a78bfa;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        .data-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
             gap: 1rem;
+            color: rgba(248,250,252,0.72);
+            font-size: 0.92rem;
         }
 
-        .data-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .data-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.25rem;
-        }
-
-        .data-input {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-color);
-            color: white;
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 1rem;
-            width: 100%;
-            transition: border-color 0.2s;
-        }
-        
-        .data-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .raw-text {
-            margin-top: 1.5rem;
-            background: rgba(0,0,0,0.3);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            white-space: pre-wrap;
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
-            display: none;
-        }
-
-        .toggle-raw {
-            color: var(--primary);
-            cursor: pointer;
-            font-size: 0.9rem;
-            text-decoration: underline;
-            margin-top: 1rem;
-            display: inline-block;
-        }
-        
-        .file-list {
-            margin-top: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
         .file-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(255,255,255,0.05);
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid var(--border-color);
+            gap: 1rem;
+            width: 100%;
+            padding: 1rem 1.1rem;
+            border-radius: 1.25rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-top: 0.85rem;
         }
-        
+
         .file-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.9rem;
+            min-width: 0;
         }
-        
-        .file-name {
-            font-size: 0.9rem;
-            font-weight: 500;
+
+        .file-info i {
+            font-size: 1.35rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.9rem;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.08);
         }
-        
+
         .file-status {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            color: rgba(248,250,252,0.75);
+            font-size: 0.9rem;
         }
-        
-        .file-status.success { color: var(--success); }
-        .file-status.error { color: var(--danger); }
-        .file-status.processing { color: var(--primary); }
-        
-        .remove-file {
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: color 0.2s;
+
+        .processing {
+            color: var(--secondary);
         }
-        
-        .remove-file:hover {
+
+        .success {
+            color: var(--success);
+        }
+
+        .error {
             color: var(--danger);
+        }
+
+        .remove-file {
+            cursor: pointer;
+            color: rgba(248,250,252,0.64);
+            transition: color 0.2s ease;
+        }
+
+        .remove-file:hover {
+            color: #ffffff;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.75rem;
+            padding: 1.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .data-item {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .data-label {
+            color: rgba(248,250,252,0.74);
+            font-size: 0.9rem;
+        }
+
+        .data-input {
+            width: 100%;
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.03);
+            color: #ffffff;
+            padding: 0.85rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        .toggle-raw {
+            margin-top: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .raw-text {
+            margin-top: 1rem;
+            display: none;
+            white-space: pre-wrap;
+            color: rgba(248,250,252,0.72);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .result-section {
+            display: none !important;
+        }
+
+        @media (max-width: 1120px) {
+            .hero,
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid,
+            .deck {
+                grid-template-columns: 1fr;
+            }
+
+            .watermark-text {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .topbar-inner {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-actions {
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 6.5rem 0.75rem 1.5rem;
+            }
+
+            .topbar-inner {
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+            }
+
+            .nav-open .nav-links {
+                display: flex;
+            }
+
+            .hero-copy h1 {
+                font-size: 2.3rem;
+            }
+
+            .hero-panel {
+                padding: 1.75rem;
+            }
+
+            .upload-card {
+                padding: 1.75rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-footer {
+                gap: 0.75rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .page-content {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .hero-copy h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-badge {
+                font-size: 0.78rem;
+                padding: 0.7rem 0.9rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .nav-links {
+                gap: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1>GPay to XLSXConverter</h1>
-        <p>Intelligently extract transaction details from screenshots</p>
-    </div>
-
-    <div class="container">
-        <!-- Step 1: Upload -->
-        <div id="upload-step">
-            <div class="upload-area" id="drop-zone">
-                <i class="ri-image-add-line upload-icon"></i>
-                <h3 class="upload-text">Drag & Drop transaction statements</h3>
-                <p class="upload-subtext">or click to browse from your device (PDF, JPEG, PNG)</p>
-                <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp, application/pdf" multiple>
+    <header class="topbar" id="topbar">
+        <div class="topbar-inner">
+            <div class="brand">
+                <img src="file:///C:/Users/nande/Downloads/cropped-Logo-1-1%20(1).png" alt="Blue Cloud Softech Solutions" class="brand-logo" onerror="this.onerror=null;this.src='7 - Copy.png';">
             </div>
-            
-            <div class="file-list" id="file-list"></div>
 
-            <div style="margin-top: 1.5rem;">
-                <button class="btn btn-primary" id="process-btn" style="display: none;">
-                    <i class="ri-ai-generate"></i> Process Images
-                </button>
-            </div>
-            
-            <div class="progress-container" id="progress-container">
-                <div class="progress-header">
-                    <span id="progress-status">Initializing AI engine...</span>
-                    <span id="progress-percent">0%</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progress-fill"></div>
-                </div>
+            <nav class="nav-links" id="nav-links">
+                <a href="#home">Home</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#security">Security</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <span style="font-weight:700; font-size:1.1rem; color:#ffbfa5; letter-spacing:-0.01em;">GPay to XLSX</span>
+                <button class="menu-toggle" id="menu-toggle"><i class="ri-menu-line"></i></button>
             </div>
         </div>
+    </header>
 
-        <!-- Step 2: Results -->
-        <div class="result-section" id="result-step">
-            <div class="header" style="margin-bottom: 1.5rem;">
-                <h2 style="font-size: 1.5rem;">Extracted Data</h2>
-                <p style="font-size: 0.9rem;">Review and edit the extracted information before exporting</p>
+    <main class="page-content">
+        <section class="hero" id="home">
+            <div class="hero-copy">
+                <span class="hero-badge">Enterprise Grade Transcription</span>
+                <h1>Turn GPay Screenshots into <span>Spreadsheets Instantly</span></h1>
+                <p>Intelligently extract transaction details from screenshots and export to XLSX in seconds. No manual data entry, no errors.</p>
             </div>
 
-            <!-- Action Buttons Above Results -->
-            <div class="actions" style="margin-top: 0; margin-bottom: 2rem;">
-                <button class="btn btn-secondary" id="back-btn" style="flex: 1;">
-                    <i class="ri-arrow-left-line"></i> Upload More
-                </button>
-                <button class="btn btn-success" id="export-btn" style="flex: 2;">
-                    <i class="ri-file-excel-2-line"></i> Export to XLSX
-                </button>
-            </div>
+            <aside class="hero-panel">
+                <div id="upload-step">
+                    <div class="upload-card" id="drop-zone">
+                        <div class="upload-icon"><i class="ri-upload-cloud-2-line"></i></div>
+                        <h3>Drag & Drop Screenshots</h3>
+                        <p>or click to browse from your computer</p>
+                        <div class="upload-types">
+                            <span>PDF</span>
+                            <span>JPEG</span>
+                            <span>PNG</span>
+                        </div>
+                        <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp, application/pdf" multiple>
+                    </div>
 
+                    <div class="file-list" id="file-list"></div>
+
+                    <div class="upload-progress" id="progress-container">
+                        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+                        <div class="progress-meta">
+                            <span id="progress-status">Ready to process</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; display:flex; gap:1rem; justify-content:center;">
+                        <button class="btn btn-primary" id="process-btn" style="display: none; max-width: 240px;">
+                            <i class="ri-ai-generate"></i> Process Images
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-footer">
+                    <div class="hero-chip"><i class="ri-shield-check-line"></i>End-to-End Encrypted</div>
+                    <div class="hero-chip"><i class="ri-flashlight-line"></i>Sub-Second Latency</div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="section-heading has-watermark" id="solutions">
+            <h2>Financial Data, <span style="color: var(--secondary);">Streamlined</span></h2>
+            <p>Our AI-driven engine processes your GPay transaction receipts with 99.9% accuracy, identifying dates, amounts, and merchants automatically.</p>
+            <span class="watermark-text">WORKFLOW</span>
+        </section>
+
+        <section class="feature-grid">
+            <article class="feature-card">
+                <span>01</span>
+                <h3>Upload Screenshot</h3>
+                <p>Simply capture your GPay transaction history or receipt and drop it into our secure converter.</p>
+            </article>
+            <article class="feature-card">
+                <span>02</span>
+                <h3>AI Extraction</h3>
+                <p>Our proprietary vision model scans the image to identify merchant names, dates, amounts, and reference IDs.</p>
+            </article>
+            <article class="feature-card">
+                <span>03</span>
+                <h3>Download XLSX</h3>
+                <p>Get a perfectly formatted Excel or CSV file ready for your accounting software or personal expense tracker.</p>
+            </article>
+        </section>
+
+        <section class="info-section" id="security">
+            <div class="info-card">
+                <h3>Precision Transcription</h3>
+                <p>Our technology handles everything from complex receipt formats to blurry mobile captures with enterprise precision.</p>
+                <div class="deck">
+                    <div class="deck-item"><i class="ri-shield-check-line"></i><span>99.9% Data Accuracy</span></div>
+                    <div class="deck-item"><i class="ri-briefcase-5-line"></i><span>Used by 15k+ Accountants</span></div>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="mini-card">
+                    <h4>Instant Sync</h4>
+                    <p>Connect directly to Tally or Zoho Books.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>Workflow Optimized</h4>
+                    <p>Spend less time processing receipts and more time closing books.</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section class="section-heading" id="contact">
+            <h2>Ready to simplify your bookkeeping?</h2>
+            <p>Start converting your GPay receipts into usable spreadsheet data today with a secure, fast tool built for finance teams and solo accountants.</p>
+        </section>
+
+        <section class="feature-grid">
+            <article class="feature-card">
+                <span>Talk to Sales</span>
+                <h3>Enterprise onboarding</h3>
+                <p>Book a demo and configure a workflow that fits your compliance and reporting needs.</p>
+            </article>
+            <article class="feature-card">
+                <span>Get Started</span>
+                <h3>Begin your first export</h3>
+                <p>Upload your first set of files and see how quickly the converter recognizes transactions.</p>
+            </article>
+            <article class="feature-card">
+                <span>Support</span>
+                <h3>24/7 assistance</h3>
+                <p>Our support team is available for integration help and troubleshooting across your data pipeline.</p>
+            </article>
+        </section>
+
+        <section class="result-section" id="result-step">
+            <div class="info-card" style="padding: 1.75rem;">
+                <h3>Extracted Data</h3>
+                <p style="font-size: 0.95rem; color: rgba(248,250,252,0.75);">Review and edit the extracted information before exporting.</p>
+                <div class="actions" style="margin-top: 1.5rem;">
+                    <button class="btn btn-default" id="back-btn">Upload More</button>
+                    <button class="btn btn-primary" id="export-btn">Export to XLSX</button>
+                </div>
+            </div>
             <div id="results-container"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>© 2026 Blue Cloud Softech Solutions Limited.</span>
+        <div class="footer-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Docs</a>
+            <a href="#">Status</a>
         </div>
-    </div>
+    </footer>
 
     <script>
         // DOM Elements
@@ -1058,6 +1702,41 @@
 
             XLSX.writeFile(wb, `GPay_Transactions_${new Date().getTime()}.xlsx`);
         });
+
+        // Mobile navigation
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinksContainer = document.getElementById('nav-links');
+        const topbar = document.getElementById('topbar');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        menuToggle.addEventListener('click', () => {
+            document.body.classList.toggle('nav-open');
+        });
+
+        navLinksContainer.addEventListener('click', (event) => {
+            if (event.target.tagName.toLowerCase() === 'a') {
+                document.body.classList.remove('nav-open');
+            }
+        });
+
+        function updateNavbarState() {
+            topbar.classList.toggle('scrolled', window.scrollY > 30);
+            const scrollPosition = window.scrollY + 220;
+            navLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute('href'));
+                if (!section) return;
+                const sectionTop = section.offsetTop;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateNavbarState);
+        window.addEventListener('load', updateNavbarState);
 
         // Back / Reset
         backBtn.addEventListener('click', () => {
