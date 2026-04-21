@@ -368,6 +368,2037 @@
             letter-spacing: 0.06em;
         }
 
+        .mode-wrap {
+            margin-bottom: 1rem;
+        }
+
+        .mode-label {
+            display: block;
+            margin-bottom: 0.45rem;
+            color: rgba(248,250,252,0.9);
+            font-weight: 700;
+            font-size: 0.92rem;
+            letter-spacing: 0.01em;
+        }
+
+        .mode-select {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 0.8rem;
+            background: rgba(15, 27, 50, 0.96);
+            color: #ffffff;
+            padding: 0.72rem 0.85rem;
+            outline: none;
+        }
+
+        .mode-select option {
+            color: #ffffff;
+            background: #0d1a33;
+        }
+
+        .upload-card input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-footer {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1rem 1.1rem;
+            border-radius: 1.25rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: rgba(248,250,252,0.82);
+            font-size: 0.92rem;
+            justify-content: center;
+        }
+
+        .hero-chip i {
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        .section-heading {
+            margin-top: 3rem;
+            max-width: 720px;
+            scroll-margin-top: 6.5rem;
+        }
+
+        section {
+            scroll-margin-top: 6.5rem;
+        }
+
+        .section-heading h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-heading p {
+            color: rgba(248,250,252,0.72);
+            line-height: 1.8;
+            max-width: 760px;
+        }
+
+        .section-heading.has-watermark {
+            position: relative;
+            overflow: visible;
+        }
+
+        .watermark-text {
+            position: absolute;
+            right: -560px;
+            top: 55%;
+            transform: translateY(-50%);
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: rgba(180, 195, 230, 0.06);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            line-height: 1;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.5rem;
+            padding: 1.75rem;
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+            min-height: 220px;
+            overflow-wrap: anywhere;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.16);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .feature-card span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.6rem;
+            max-width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 1rem;
+            background: rgba(255,255,255,0.08);
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: rgba(248,250,252,0.72);
+            line-height: 1.85;
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: 1.3fr 0.9fr;
+            gap: 1.25rem;
+            margin-top: 6rem;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 2rem;
+            padding: 2rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .info-card p {
+            color: rgba(248,250,252,0.74);
+            line-height: 1.85;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .mini-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.35rem;
+            padding: 1.5rem;
+            min-height: 120px;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .mini-card h4 {
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        .mini-card p {
+            color: rgba(248,250,252,0.72);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .mini-card.small {
+            text-align: center;
+            place-content: center;
+        }
+
+        .mini-card .stat {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 3rem auto 0;
+            max-width: 1200px;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            color: rgba(248,250,252,0.68);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links a {
+            color: rgba(248,250,252,0.72);
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .deck {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .deck-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.2rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.25rem;
+            color: rgba(248,250,252,0.78);
+        }
+
+        .deck-item i {
+            font-size: 1.3rem;
+            color: var(--secondary);
+        }
+
+        .deck-item span {
+            line-height: 1.5;
+        }
+
+        .upload-progress {
+            display: none;
+            margin-top: 1.5rem;
+            gap: 0.85rem;
+            width: 100%;
+        }
+
+        .upload-progress.active {
+            display: grid;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.75rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(135deg, var(--primary), #ff8a5d);
+            border-radius: 999px;
+            transition: width 0.25s ease;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            color: rgba(248,250,252,0.72);
+            font-size: 0.92rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            width: 100%;
+            padding: 1rem 1.1rem;
+            border-radius: 1.25rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-top: 0.85rem;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            min-width: 0;
+        }
+
+        .file-info i {
+            font-size: 1.35rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.9rem;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .file-status {
+            color: rgba(248,250,252,0.75);
+            font-size: 0.9rem;
+        }
+
+        .processing {
+            color: var(--secondary);
+        }
+
+        .success {
+            color: var(--success);
+        }
+
+        .error {
+            color: var(--danger);
+        }
+
+        .remove-file {
+            cursor: pointer;
+            color: rgba(248,250,252,0.64);
+            transition: color 0.2s ease;
+        }
+
+        .remove-file:hover {
+            color: #ffffff;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.75rem;
+            padding: 1.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .data-item {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .data-label {
+            color: rgba(248,250,252,0.74);
+            font-size: 0.9rem;
+        }
+
+        .data-input {
+            width: 100%;
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.03);
+            color: #ffffff;
+            padding: 0.85rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        .toggle-raw {
+            margin-top: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .raw-text {
+            margin-top: 1rem;
+            display: none;
+            white-space: pre-wrap;
+            color: rgba(248,250,252,0.72);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .result-section {
+            display: none !important;
+        }
+
+        @media (max-width: 1120px) {
+            .hero,
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid,
+            .deck {
+                grid-template-columns: 1fr;
+            }
+
+            .watermark-text {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .topbar-inner {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-actions {
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 6.5rem 0.75rem 1.5rem;
+            }
+
+            .topbar-inner {
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+            }
+
+            .nav-open .nav-links {
+                display: flex;
+            }
+
+            .hero-copy h1 {
+                font-size: 2.3rem;
+            }
+
+            .hero-panel {
+                padding: 1.75rem;
+            }
+
+            .upload-card {
+                padding: 1.75rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-footer {
+                gap: 0.75rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .page-content {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .hero-copy h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-badge {
+                font-size: 0.78rem;
+                padding: 0.7rem 0.9rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .nav-links {
+                gap: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar" id="topbar">
+        <div class="topbar-inner">
+            <div class="brand">
+                <img src="file:///C:/Users/nande/Downloads/cropped-Logo-1-1%20(1).png" alt="Blue Cloud Softech Solutions" class="brand-logo" onerror="this.onerror=null;this.src='7 - Copy.png';">
+            </div>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="#home">Home</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#security">Security</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <span style="font-weight:700; font-size:1.1rem; color:#ffbfa5; letter-spacing:-0.01em;">GPay to XLSX</span>
+                <button class="menu-toggle" id="menu-toggle"><i class="ri-menu-line"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <section class="hero" id="home">
+            <div class="hero-copy">
+                <span class="hero-badge">Enterprise Grade Transcription</span>
+                <h1>Turn GPay Screenshots into <span>Spreadsheets Instantly</span></h1>
+                <p>Intelligently extract transaction details from screenshots and export to XLSX in seconds. No manual data entry, no errors.</p>
+            </div>
+
+            <aside class="hero-panel">
+                <div id="upload-step">
+                    <div class="mode-wrap">
+                        <label for="convert-mode" class="mode-label">Conversion Type</label>
+                        <select id="convert-mode" class="mode-select">
+                            <option value="gpay" selected>GPay Transaction to XLSX</option>
+                            <option value="bank">Bank Statement to XLSX</option>
+                        </select>
+                    </div>
+                    <div class="upload-card" id="drop-zone">
+                        <div class="upload-icon"><i class="ri-upload-cloud-2-line"></i></div>
+                        <h3 id="upload-title">Drag & Drop Screenshots</h3>
+                        <p id="upload-subtitle">or click to browse from your computer</p>
+                        <div class="upload-types" id="upload-types">
+                            <span>PDF</span>
+                            <span>JPEG</span>
+                            <span>PNG</span>
+                        </div>
+                        <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp, application/pdf" multiple>
+                    </div>
+
+                    <div class="file-list" id="file-list"></div>
+
+                    <div class="upload-progress" id="progress-container">
+                        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+                        <div class="progress-meta">
+                            <span id="progress-status">Ready to process</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; display:flex; gap:1rem; justify-content:center;">
+                        <button class="btn btn-primary" id="process-btn" style="display: none; max-width: 240px;">
+                            <i class="ri-ai-generate"></i> Process Images
+                        </button>
+                        <button class="btn btn-primary" id="upload-export-btn" style="display: none; max-width: 240px;">
+                            <i class="ri-file-excel-2-line"></i> Export PDF to XLSX
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-footer">
+                    <div class="hero-chip"><i class="ri-shield-check-line"></i>End-to-End Encrypted</div>
+                    <div class="hero-chip"><i class="ri-flashlight-line"></i>Sub-Second Latency</div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="section-heading has-watermark" id="solutions">
+            <h2>Financial Data, <span style="color: var(--secondary);">Streamlined</span></h2>
+            <p>Our AI-driven engine processes your GPay transaction receipts with 99.9% accuracy, identifying dates, amounts, and merchants automatically.</p>
+            <span class="watermark-text">WORKFLOW</span>
+        </section>
+
+        <section class="feature-grid">
+            <article class="feature-card">
+                <span>01</span>
+                <h3>Upload Screenshot</h3>
+                <p>Simply capture your GPay transaction history or receipt and drop it into our secure converter.</p>
+            </article>
+            <article class="feature-card">
+                <span>02</span>
+                <h3>AI Extraction</h3>
+                <p>Our proprietary vision model scans the image to identify merchant names, dates, amounts, and reference IDs.</p>
+            </article>
+            <article class="feature-card">
+                <span>03</span>
+                <h3>Download XLSX</h3>
+                <p>Get a perfectly formatted Excel or CSV file ready for your accounting software or personal expense tracker.</p>
+            </article>
+        </section>
+
+        <section class="info-section" id="security">
+            <div class="info-card">
+                <h3>Precision Transcription</h3>
+                <p>Our technology handles everything from complex receipt formats to blurry mobile captures with enterprise precision.</p>
+                <div class="deck">
+                    <div class="deck-item"><i class="ri-shield-check-line"></i><span>99.9% Data Accuracy</span></div>
+                    <div class="deck-item"><i class="ri-briefcase-5-line"></i><span>Used by 15k+ Accountants</span></div>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="mini-card">
+                    <h4>Instant Sync</h4>
+                    <p>Connect directly to Tally or Zoho Books.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>Workflow Optimized</h4>
+                    <p>Spend less time processing receipts and more time closing books.</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section class="section-heading" id="contact">
+            <h2>Ready to simplify your bookkeeping?</h2>
+            <p>Start converting your GPay receipts into usable spreadsheet data today with a secure, fast tool built for finance teams and solo accountants.</p>
+        </section>
+
+        <section class="feature-grid">
+            <article class="feature-card">
+                <span>Talk to Sales</span>
+                <h3>Enterprise onboarding</h3>
+                <p>Book a demo and configure a workflow that fits your compliance and reporting needs.</p>
+            </article>
+            <article class="feature-card">
+                <span>Get Started</span>
+                <h3>Begin your first export</h3>
+                <p>Upload your first set of files and see how quickly the converter recognizes transactions.</p>
+            </article>
+            <article class="feature-card">
+                <span>Support</span>
+                <h3>24/7 assistance</h3>
+                <p>Our support team is available for integration help and troubleshooting across your data pipeline.</p>
+            </article>
+        </section>
+
+        <section class="result-section" id="result-step">
+            <div class="info-card" style="padding: 1.75rem;">
+                <h3>Extracted Data</h3>
+                <p style="font-size: 0.95rem; color: rgba(248,250,252,0.75);">Review and edit the extracted information before exporting.</p>
+                <div class="actions" style="margin-top: 1.5rem;">
+                    <button class="btn btn-default" id="back-btn">Upload More</button>
+                    <button class="btn btn-primary" id="export-btn">Export to XLSX</button>
+                </div>
+            </div>
+            <div id="results-container"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>© 2026 Blue Cloud Softech Solutions Limited.</span>
+        <div class="footer-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Docs</a>
+            <a href="#">Status</a>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileListContainer = document.getElementById('file-list');
+        const processBtn = document.getElementById('process-btn');
+        const uploadExportBtn = document.getElementById('upload-export-btn');
+        const convertMode = document.getElementById('convert-mode');
+        const uploadTitle = document.getElementById('upload-title');
+        const uploadSubtitle = document.getElementById('upload-subtitle');
+        const uploadTypes = document.getElementById('upload-types');
+        const progressContainer = document.getElementById('progress-container');
+        const progressStatus = document.getElementById('progress-status');
+        const progressFill = document.getElementById('progress-fill');
+        const progressPercent = document.getElementById('progress-percent');
+        
+        const uploadStep = document.getElementById('upload-step');
+        const resultStep = document.getElementById('result-step');
+        const resultsContainer = document.getElementById('results-container');
+        const backBtn = document.getElementById('back-btn');
+        const exportBtn = document.getElementById('export-btn');
+
+        // State
+        let uploadedFiles = [];
+        let extractedData = [];
+        let currentMode = 'gpay';
+
+        // Event Listeners for File Upload
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function applyMode(mode) {
+            currentMode = mode;
+            if (mode === 'bank') {
+                uploadTitle.innerText = 'Upload Bank Statement PDF';
+                uploadSubtitle.innerText = 'Convert statement transactions to structured XLSX';
+                uploadTypes.innerHTML = '<span>PDF</span>';
+                fileInput.accept = 'application/pdf';
+            } else {
+                uploadTitle.innerText = 'Drag & Drop Screenshots';
+                uploadSubtitle.innerText = 'or click to browse from your computer';
+                uploadTypes.innerHTML = '<span>PDF</span><span>JPEG</span><span>PNG</span>';
+                fileInput.accept = 'image/jpeg, image/png, image/webp, application/pdf';
+            }
+            uploadedFiles = [];
+            extractedData = [];
+            renderFileList();
+            updateActionButtons();
+            progressContainer.style.display = 'none';
+            dropZone.style.display = 'grid';
+            fileInput.value = '';
+        }
+
+        convertMode.addEventListener('change', (e) => {
+            applyMode(e.target.value);
+        });
+        applyMode(convertMode.value);
+
+        function handleFiles(files) {
+            const newFiles = Array.from(files).filter(file => {
+                if (currentMode === 'bank') return file.type === 'application/pdf';
+                return file.type.startsWith('image/') || file.type === 'application/pdf';
+            });
+
+            uploadedFiles = newFiles.map(file => {
+                return {
+                    id: Math.random().toString(36).substring(7),
+                    file,
+                    status: 'pending',
+                    data: null
+                };
+            });
+
+            extractedData = [];
+            progressContainer.style.display = 'none';
+            progressFill.style.width = '0%';
+            progressPercent.innerText = '0%';
+            progressStatus.innerText = 'Ready to process';
+            dropZone.style.display = 'grid';
+            renderFileList();
+            updateActionButtons();
+            fileInput.value = '';
+        }
+
+        function updateActionButtons() {
+            if (uploadedFiles.length === 0) {
+                processBtn.style.display = 'none';
+                uploadExportBtn.style.display = 'none';
+                return;
+            }
+            const allPDF = uploadedFiles.every(f => f.file.type === 'application/pdf');
+            if (allPDF) {
+                processBtn.style.display = 'none';
+                uploadExportBtn.style.display = 'inline-flex';
+            } else {
+                uploadExportBtn.style.display = 'none';
+                processBtn.style.display = 'inline-flex';
+            }
+        }
+
+        window.removeFile = function(id) {
+            uploadedFiles = uploadedFiles.filter(f => f.id !== id);
+            renderFileList();
+            updateActionButtons();
+        };
+
+        function renderFileList() {
+            fileListContainer.innerHTML = '';
+            uploadedFiles.forEach(fileObj => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                
+                let icon = 'ri-image-line';
+                let statusClass = '';
+                let statusText = 'Ready';
+                
+                if (fileObj.status === 'processing') {
+                    icon = 'ri-loader-4-line ri-spin';
+                    statusClass = 'processing';
+                    statusText = 'Processing...';
+                } else if (fileObj.status === 'success') {
+                    icon = 'ri-checkbox-circle-line';
+                    statusClass = 'success';
+                    statusText = 'Extracted';
+                } else if (fileObj.status === 'error') {
+                    icon = 'ri-error-warning-line';
+                    statusClass = 'error';
+                    statusText = 'Failed';
+                }
+
+                item.innerHTML = `
+                    <div class="file-info">
+                        <i class="${icon} ${statusClass}"></i>
+                        <div>
+                            <div class="file-name">${fileObj.file.name}</div>
+                            <div class="file-status ${statusClass}">${statusText}</div>
+                        </div>
+                    </div>
+                    ${fileObj.status === 'pending' || fileObj.status === 'error' ? 
+                        `<i class="ri-close-line remove-file" onclick="removeFile('${fileObj.id}')" title="Remove"></i>` : 
+                        ''
+                    }
+                `;
+                fileListContainer.appendChild(item);
+            });
+        }
+
+        function updateProgressBar(progress, completed, total) {
+            const fileProgress = progress * 100;
+            const overallProgress = ((completed / total) * 100) + (fileProgress / total);
+            progressFill.style.width = `${overallProgress}%`;
+            progressPercent.innerText = `${Math.round(overallProgress)}%`;
+        }
+
+        async function extractTransactionsFromPDF(fileObj, completed, total) {
+            const text = await processPDFWithPDFJS(fileObj.file, (progress) => {
+                updateProgressBar(progress, completed, total);
+            });
+
+            let transactions = [];
+            const detailedTxns = parseGPayDetailedTransactions(text, fileObj.file.name);
+            if (detailedTxns.length > 0) {
+                transactions = detailedTxns;
+            } else {
+                const pages = text.split('___PAGE_BREAK___');
+                for (let p = 0; p < pages.length; p++) {
+                    const pageText = pages[p].trim();
+                    if (!pageText) continue;
+                    let pageTransactions = parsePDFStatement(pageText, `${fileObj.file.name} (Pg ${p+1})`);
+                    if (pageTransactions.length === 0) {
+                        const tx = parseExtractedText(pageText, `${fileObj.file.name} (Pg ${p+1})`);
+                        if (tx.amount !== '0.00' || tx.receiver !== 'Unknown') {
+                            pageTransactions.push(tx);
+                        }
+                    }
+                    transactions.push(...pageTransactions);
+                }
+            }
+            return transactions;
+        }
+
+        function normalizeAmountToken(value) {
+            if (!value) return '';
+            return value.replace(/\s+/g, '').trim();
+        }
+
+        function parseBankStatementRowsFromText(fullText, filename) {
+            const lines = fullText
+                .split('\n')
+                .map(line => line.replace(/\s+/g, ' ').trim())
+                .filter(Boolean);
+
+            const rows = [];
+            const rowRegex = /^(\d{2}[\/\-]\d{2}[\/\-]\d{4})\s*([A-Za-z0-9]+)?\s*(.*)$/;
+            const amountRegex = /-?\d[\d,]*\.\d{2}(?:CR|DR)?/gi;
+
+            for (const line of lines) {
+                const m = line.match(rowRegex);
+                if (!m) continue;
+
+                const date = m[1] || '';
+                const id = m[2] || '';
+                const tail = (m[3] || '').trim();
+                const amountMatches = [...tail.matchAll(amountRegex)];
+
+                if (amountMatches.length === 0) continue;
+
+                const firstAmtIndex = amountMatches[0].index ?? tail.length;
+                const particulars = tail.slice(0, firstAmtIndex).trim();
+                const amounts = amountMatches.map(match => normalizeAmountToken(match[0]));
+
+                let debitAmt = '';
+                let creditAmt = '';
+                let balanceAmt = '';
+
+                if (amounts.length >= 3) {
+                    debitAmt = amounts[amounts.length - 3] || '';
+                    creditAmt = amounts[amounts.length - 2] || '';
+                    balanceAmt = amounts[amounts.length - 1] || '';
+                } else if (amounts.length === 2) {
+                    const txnAmt = amounts[0] || '';
+                    balanceAmt = amounts[1] || '';
+                    const p = particulars.toUpperCase();
+                    if (p.includes('/CR/') || p.includes(' CREDIT')) {
+                        creditAmt = txnAmt;
+                    } else if (p.includes('/DR/') || p.includes(' DEBIT')) {
+                        debitAmt = txnAmt;
+                    } else {
+                        debitAmt = txnAmt;
+                    }
+                } else {
+                    balanceAmt = amounts[0] || '';
+                }
+
+                rows.push({
+                    'Date': date || '',
+                    'ID': id || '',
+                    'Tran Ref Num Particulars': particulars || '',
+                    'Debit Amt': debitAmt || '',
+                    'Credit Amt': creditAmt || '',
+                    'Balance Amt': balanceAmt || '',
+                    'Source File': filename || ''
+                });
+            }
+
+            return rows;
+        }
+
+        async function extractBankRowsFromPDF(fileObj, completed, total) {
+            const text = await processPDFWithPDFJS(fileObj.file, (progress) => {
+                updateProgressBar(progress, completed, total);
+            });
+            return parseBankStatementRowsFromText(text, fileObj.file.name);
+        }
+
+        async function exportUploadedPDFsDirectly() {
+            const filesToProcess = uploadedFiles.filter(f => f.file.type === 'application/pdf');
+            if (filesToProcess.length === 0) {
+                alert('Please upload a PDF file.');
+                return;
+            }
+
+            uploadExportBtn.style.display = 'none';
+            processBtn.style.display = 'none';
+            progressContainer.style.display = 'block';
+            dropZone.style.display = 'none';
+            progressStatus.innerText = 'Converting PDF to XLSX...';
+            extractedData = [];
+
+            let completed = 0;
+            for (let i = 0; i < filesToProcess.length; i++) {
+                const fileObj = filesToProcess[i];
+                fileObj.status = 'processing';
+                renderFileList();
+                try {
+                    const transactions = currentMode === 'bank'
+                        ? await extractBankRowsFromPDF(fileObj, completed, filesToProcess.length)
+                        : await extractTransactionsFromPDF(fileObj, completed, filesToProcess.length);
+                    if (transactions.length === 0) throw new Error('No transactions found in PDF');
+                    fileObj.status = 'success';
+                    fileObj.data = transactions;
+                    extractedData.push(...transactions);
+                } catch (error) {
+                    console.error('Export processing error:', error);
+                    fileObj.status = 'error';
+                }
+                completed++;
+                renderFileList();
+            }
+
+            if (extractedData.length === 0) {
+                progressContainer.style.display = 'none';
+                dropZone.style.display = 'grid';
+                updateActionButtons();
+                alert('Failed to extract data from uploaded PDF.');
+                return;
+            }
+
+            const hasEnhancedFields = extractedData.some(d => d['Google Transaction ID']);
+            const finalData = currentMode === 'bank'
+                ? extractedData.map(data => ({
+                    'Date': data['Date'] || '',
+                    'ID': data['ID'] || '',
+                    'Tran Ref Num Particulars': data['Tran Ref Num Particulars'] || '',
+                    'Debit Amt': data['Debit Amt'] || '',
+                    'Credit Amt': data['Credit Amt'] || '',
+                    'Balance Amt': data['Balance Amt'] || ''
+                }))
+                : extractedData.map(data => {
+                    if (hasEnhancedFields && data['Google Transaction ID']) {
+                        return {
+                            'Google Transaction ID': data['Google Transaction ID'] || '',
+                            'UPI RRN': data['UPI RRN'] || '',
+                            'Order Type': data['Order Type'] || '',
+                            'Amount': data['Amount'] || data.amount || '',
+                            'Status': data['Status'] || '',
+                            'Creation Time': data['Creation Time'] || '',
+                            'Update Time': data['Update Time'] || '',
+                            'Payer IP Address': data['Payer IP Address'] || '',
+                            'User Phone Number': data['User Phone Number'] || '',
+                            'User VPA': data['User VPA'] || '',
+                            'Peer Phone Number': data['Peer Phone Number'] || '',
+                            'Peer VPA': data['Peer VPA'] || '',
+                            'User IFSC': data['User IFSC'] || '',
+                            'Peer IFSC': data['Peer IFSC'] || '',
+                            'Peer Account Number': data['Peer Account Number'] || ''
+                        };
+                    }
+                    return {
+                        'Source File': data.filename || '',
+                        'Receiver / Name': data.receiver || '',
+                        'Amount': data.amount || '',
+                        'Type': data.type || '',
+                        'Date': data.date || '',
+                        'Transaction ID': data.transactionId || ''
+                    };
+                });
+
+            const ws = XLSX.utils.json_to_sheet(finalData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, currentMode === 'bank' ? 'Bank Statement' : 'Transactions');
+            if (finalData.length > 0) {
+                ws['!cols'] = Object.keys(finalData[0]).map(k => ({ wch: Math.max(20, k.length + 5) }));
+            }
+            XLSX.writeFile(wb, `${currentMode === 'bank' ? 'Bank_Statement' : 'Transactions'}_${new Date().getTime()}.xlsx`);
+            setTimeout(() => window.location.reload(), 250);
+
+            progressContainer.style.display = 'none';
+            dropZone.style.display = 'grid';
+            updateActionButtons();
+        }
+
+        uploadExportBtn.addEventListener('click', async () => {
+            await exportUploadedPDFsDirectly();
+        });
+
+        // Processing Logic
+        processBtn.addEventListener('click', async () => {
+            processBtn.style.display = 'none';
+            progressContainer.style.display = 'block';
+            dropZone.style.display = 'none';
+            
+            const filesToProcess = uploadedFiles.filter(f => f.status === 'pending' || f.status === 'error');
+            
+            let completed = 0;
+            
+            for (let i = 0; i < filesToProcess.length; i++) {
+                const fileObj = filesToProcess[i];
+                fileObj.status = 'processing';
+                renderFileList();
+                
+                progressStatus.innerText = `Processing file ${i + 1} of ${filesToProcess.length}...`;
+                
+                try {
+                    if (fileObj.file.type === 'application/pdf') {
+                        const text = await processPDFWithPDFJS(fileObj.file, (progress) => {
+                            const fileProgress = progress * 100;
+                            const overallProgress = ((completed / filesToProcess.length) * 100) + (fileProgress / filesToProcess.length);
+                            progressFill.style.width = `${overallProgress}%`;
+                            progressPercent.innerText = `${Math.round(overallProgress)}%`;
+                        });
+                        
+                        let transactions = [];
+                        
+                        const detailedTxns = parseGPayDetailedTransactions(text, fileObj.file.name);
+                        if (detailedTxns.length > 0) {
+                            transactions = detailedTxns;
+                        } else {
+                            const pages = text.split('___PAGE_BREAK___');
+                            for (let p = 0; p < pages.length; p++) {
+                                const pageText = pages[p].trim();
+                                if (!pageText) continue;
+                                
+                                let pageTransactions = parsePDFStatement(pageText, `${fileObj.file.name} (Pg ${p+1})`);
+                                if (pageTransactions.length === 0) {
+                                    const tx = parseExtractedText(pageText, `${fileObj.file.name} (Pg ${p+1})`);
+                                    if (tx.amount !== '0.00' || tx.receiver !== 'Unknown') {
+                                        pageTransactions.push(tx);
+                                    }
+                                }
+                                transactions.push(...pageTransactions);
+                            }
+                        }
+                        
+                        if (transactions.length === 0) throw new Error("No transactions found in PDF");
+                        fileObj.status = 'success';
+                        fileObj.data = transactions;
+                    } else {
+                        const result = await processImageWithTesseract(fileObj.file, (progress) => {
+                            const fileProgress = progress * 100;
+                            const overallProgress = ((completed / filesToProcess.length) * 100) + (fileProgress / filesToProcess.length);
+                            progressFill.style.width = `${overallProgress}%`;
+                            progressPercent.innerText = `${Math.round(overallProgress)}%`;
+                        });
+                        
+                        fileObj.status = 'success';
+                        fileObj.data = [parseExtractedText(result.data.text, fileObj.file.name)];
+                    }
+                    
+                    extractedData.push(...fileObj.data);
+                    
+                } catch (error) {
+                    console.error("Processing Error:", error);
+                    fileObj.status = 'error';
+                }
+                
+                completed++;
+                renderFileList();
+            }
+            
+            if (extractedData.length > 0) {
+                showResults();
+            } else {
+                progressContainer.style.display = 'none';
+                dropZone.style.display = 'grid';
+                updateActionButtons();
+                alert('Failed to extract data from the selected files.');
+            }
+        });
+
+        async function processPDFWithPDFJS(file, onProgress) {
+            onProgress(0.1); 
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+            let fullText = '';
+            
+            for (let i = 1; i <= pdf.numPages; i++) {
+                onProgress(0.1 + (0.9 * (i / pdf.numPages)));
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                
+                const items = textContent.items;
+                let lines = [];
+                for (const item of items) {
+                    let added = false;
+                    for (let line of lines) {
+                        if (Math.abs(line.y - item.transform[5]) < 4) {
+                            line.items.push(item);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added) {
+                        lines.push({ y: item.transform[5], items: [item] });
+                    }
+                }
+                
+                lines.sort((a, b) => b.y - a.y);
+                for (let line of lines) {
+                    line.items.sort((a, b) => a.transform[4] - b.transform[4]);
+                    fullText += line.items.map(i => i.str).join(' ') + '\n';
+                }
+                fullText += '\n___PAGE_BREAK___\n';
+            }
+            return fullText;
+        }
+
+        function parseGPayDetailedTransactions(fullText, filename) {
+            if (!/Google\s*Transaction\s*ID\s*:/i.test(fullText)) return [];
+
+            function extractValue(text, key) {
+                const pattern = key.split(' ').join('\\s*') + '\\s*:[ \\t]*([^\\n\\r]*)';
+                const regex = new RegExp(pattern, "i");
+                const match = text.match(regex);
+                return match ? match[1].trim() : "";
+            }
+
+            const transactions = [];
+            const parts = fullText.split(/Google\s*Transaction\s*ID\s*:/i);
+
+            for (let i = 1; i < parts.length; i++) {
+                const txnText = "Google Transaction ID:" + parts[i];
+
+                const googleTxId = extractValue(txnText, "Google Transaction ID");
+                const upiRrn = extractValue(txnText, "UPI RRN");
+                const orderType = extractValue(txnText, "Order Type");
+                let amount = extractValue(txnText, "Amount");
+                const status = extractValue(txnText, "Status");
+                const creationTime = extractValue(txnText, "Creation Time");
+                const updateTime = extractValue(txnText, "Update Time");
+                const payerIpAddress = extractValue(txnText, "Payer IP Address");
+                const userPhoneNumber = extractValue(txnText, "User Phone Number");
+                const userVPA = extractValue(txnText, "User VPA");
+                const peerPhoneNumber = extractValue(txnText, "Peer Phone Number");
+                const peerVPA = extractValue(txnText, "Peer VPA");
+                const userIFSC = extractValue(txnText, "User IFSC");
+                const peerIFSC = extractValue(txnText, "Peer IFSC");
+                const peerAccountNumber = extractValue(txnText, "Peer Account Number");
+
+                let cleanAmount = amount.replace(/[^\d\.]/g, '');
+
+                let receiver = peerVPA || peerAccountNumber || orderType || "Unknown";
+                let type = "Debit"; 
+                if (/receive|credit/i.test(orderType)) {
+                    type = "Credit";
+                }
+
+                transactions.push({
+                    id: Math.random().toString(36).substring(7),
+                    filename: filename,
+                    receiver: receiver,
+                    amount: cleanAmount || "0.00",
+                    date: creationTime || new Date().toLocaleDateString(),
+                    transactionId: googleTxId || upiRrn || "Not found",
+                    type: type,
+                    raw: txnText,
+                    
+                    "Google Transaction ID": googleTxId,
+                    "UPI RRN": upiRrn,
+                    "Order Type": orderType,
+                    "Amount": amount,
+                    "Status": status,
+                    "Creation Time": creationTime,
+                    "Update Time": updateTime,
+                    "Payer IP Address": payerIpAddress,
+                    "User Phone Number": userPhoneNumber,
+                    "User VPA": userVPA,
+                    "Peer Phone Number": peerPhoneNumber,
+                    "Peer VPA": peerVPA,
+                    "User IFSC": userIFSC,
+                    "Peer IFSC": peerIFSC,
+                    "Peer Account Number": peerAccountNumber,
+                });
+            }
+            return transactions;
+        }
+
+        function parsePDFStatement(pageText, filename) {
+            const lines = pageText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            let transactions = [];
+            
+            // Allow commas after months (e.g. 03 Feb, 2026)
+            const dateRegex = /^[\s\d]*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s\,]+\d{2,4})/i;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (dateRegex.test(line)) {
+                    const dateMatch = line.match(dateRegex);
+                    const date = dateMatch[1];
+                    
+                    let txId = '';
+                    const txMatch = line.match(/\b(\d{12})\b/);
+                    if (txMatch) {
+                        txId = txMatch[1];
+                    } else {
+                        // Look ahead up to 3 lines for a 12 digit transaction ID
+                        for (let j = 1; j <= 3 && i + j < lines.length; j++) {
+                            const aheadLine = lines[i + j];
+                            // Stop if we hit another date line (new transaction)
+                            if (dateRegex.test(aheadLine)) break;
+                            const aheadTxMatch = aheadLine.match(/\b(\d{12})\b/);
+                            if (aheadTxMatch) {
+                                txId = aheadTxMatch[1];
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const amtMatches = [...line.matchAll(/(?:₹|rs\.?|inr|r\$|\?|\$)\s*([\d,]+(?:\.\d{2})?)/gi)];
+                    let amount = '0.00';
+                    let amountStrToRemoveList = [];
+                    if (amtMatches.length > 0) {
+                        amount = amtMatches[amtMatches.length - 1][1].replace(/,/g, '');
+                        amountStrToRemoveList.push(amtMatches[amtMatches.length - 1][0]);
+                    } else {
+                        const decMatches = [...line.matchAll(/([\d,]+\.\d{2})/g)];
+                        if (decMatches.length > 0) {
+                            amount = decMatches[decMatches.length - 1][1].replace(/,/g, '');
+                            amountStrToRemoveList.push(decMatches[decMatches.length - 1][0]);
+                        } else {
+                            const lastWordMatch = line.match(/\s([\d,]+)$/);
+                            if (lastWordMatch) {
+                                amount = lastWordMatch[1].replace(/,/g, '');
+                                amountStrToRemoveList.push(lastWordMatch[0]);
+                            } else {
+                                continue; 
+                            }
+                        }
+                    }
+                    
+                    let desc = line.replace(dateRegex, '').trim();
+                    if (txId) desc = desc.replace(txId, '');
+                    for (let a of amountStrToRemoveList) desc = desc.replace(a, '');
+                    
+                    let type = 'Debit';
+                    if (/CR|CREDIT|RECEIVED/i.test(line)) type = 'Credit';
+                    
+                    desc = desc.replace(/UPI\/|NEFT\/|RTGS\/|IMPS\/|DR|CR/gi, '');
+                    let receiver = desc.trim();
+                    
+                    if (receiver && amount !== '0.00') {
+                        const strippedAmt = amount.replace(/\.00$/, '');
+                        const amtRegex = new RegExp('[\\\\s]*' + strippedAmt + '$');
+                        receiver = receiver.replace(amtRegex, '').trim();
+                    }
+                    
+                    if (receiver.length > 40) receiver = receiver.substring(0, 40) + '...';
+                    
+                    // Gather raw lines to show in UI
+                    let rawBlock = line;
+                    for (let j = 1; j <= 4 && i + j < lines.length; j++) {
+                        if (dateRegex.test(lines[i + j])) break;
+                        rawBlock += '\n' + lines[i + j];
+                    }
+                    
+                    transactions.push({
+                        id: Math.random().toString(36).substring(7),
+                        filename: filename,
+                        receiver: receiver || 'Unknown',
+                        amount: amount || '0.00',
+                        date: date,
+                        transactionId: txId || 'Not found',
+                        type: type,
+                        raw: rawBlock
+                    });
+                }
+            }
+            return transactions;
+        }
+
+        async function processImageWithTesseract(file, onProgress) {
+            const tempWorker = await Tesseract.createWorker('eng', 1, {
+                workerPath: 'https://unpkg.com/tesseract.js@v5.0.0/dist/worker.min.js',
+                langPath: 'https://tessdata.projectnaptha.com/4.0.0',
+                corePath: 'https://unpkg.com/tesseract.js-core@v5.0.0',
+                logger: m => {
+                    if (m.status === 'recognizing text') {
+                        onProgress(m.progress);
+                    }
+                }
+            });
+            const ret = await tempWorker.recognize(file);
+            await tempWorker.terminate();
+            return ret;
+        }
+
+        function parseExtractedText(fullText, filename) {
+            const lines = fullText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            
+            let amount = '';
+            let date = '';
+            let txId = '';
+            let receiver = '';
+            
+            // 1. Transaction ID
+            for (const line of lines) {
+                const match = line.match(/(?:UPI transaction ID|Transaction ID|Ref No|UTR|ID)[\s\:\-]*(\d{12})/i) ||
+                              line.match(/\b(\d{12})\b/);
+                if (match) {
+                    txId = match[1];
+                    break;
+                }
+            }
+
+            // 2. Date
+            for (const line of lines) {
+                const match = line.match(/\b(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{2,4})\b/i) || 
+                              line.match(/\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})\b/);
+                if (match) {
+                    date = match[1];
+                    break;
+                }
+            }
+            if (!date) {
+                for (const line of lines) {
+                    const match = line.match(/(?:time|date)[\s\:\-]*(\d{1,2}[\/\-\s]\w+[\/\-\s]\d{2,4})/i);
+                    if (match) {
+                        date = match[1];
+                        break;
+                    }
+                }
+            }
+
+            // 3. Amount
+            for (const line of lines) {
+                // Look for explicit currency symbols, OCR sometimes reads rupee as ?, r, z, etc.
+                const amtMatch = line.match(/(?:₹|rs\.?|inr|z|r\$|\?|\$)\s*([\d,]+\.?\d*)/i);
+                if (amtMatch) {
+                    const parsedAmt = amtMatch[1].replace(/,/g, '');
+                    if (parseFloat(parsedAmt) > 0) {
+                        amount = parsedAmt;
+                        break;
+                    }
+                }
+            }
+            if (!amount) {
+                // Fallback: look for a line that's just a decimal number
+                for (const line of lines) {
+                    const decMatch = line.match(/^[\s\W]*([\d,]+\.\d{2})[\s\W]*$/);
+                    if (decMatch) {
+                        amount = decMatch[1].replace(/,/g, '');
+                        break;
+                    }
+                }
+            }
+            if (!amount) {
+                 // Fallback: look for lines that have 'paid' or 'sent' and maybe contain a number
+                 for(const line of lines) {
+                     if(/(paid|sent|amount|₹)/i.test(line) && /\d/.test(line)) {
+                         const match = line.match(/([\d,]{2,}\.?\d*)/);
+                         if (match) {
+                             amount = match[1].replace(/,/g, '');
+                             if (parseFloat(amount) > 0 && amount.length < 9) break;
+                         }
+                     }
+                 }
+            }
+
+            // Strong fallback for large fonts (just numbers, no symbols)
+            if (!amount || amount === '0.00') {
+                for (let i = 0; i < Math.min(10, lines.length); i++) {
+                    const cleanStr = lines[i].replace(/[^\w]/g, '');
+                    const cleanNum = lines[i].replace(/[^\d]/g, '');
+                    if (cleanNum && cleanNum.length > 0 && cleanNum.length === cleanStr.length && lines[i].length < 10 && !lines[i].includes(':') && !lines[i].includes('/')) {
+                        amount = cleanNum;
+                        break;
+                    }
+                }
+            }
+
+            // 4. Receiver
+            const nameKeywords = ['paid to', 'paying', 'sent to', 'transfer to', 'receiver', 'received from', 'from', 'to', 'name'];
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].toLowerCase();
+                for (const kw of nameKeywords) {
+                    if (line.includes(kw)) {
+                        let possibleName = lines[i].substring(line.indexOf(kw) + kw.length).trim();
+                        possibleName = possibleName.replace(/^[-:;,.\s]+/, '').trim(); 
+                        if (possibleName && possibleName.length > 2) {
+                            receiver = possibleName;
+                            break;
+                        } else if (i + 1 < lines.length) {
+                            receiver = lines[i+1].trim();
+                            break;
+                        }
+                    }
+                }
+                if (receiver) break;
+            }
+
+            // If no keyword found, guess the receiver from the first couple lines
+            if (!receiver) {
+                for (let i = 0; i < Math.min(8, lines.length); i++) {
+                    const line = lines[i];
+                    // Name usually doesn't have numbers in it, and isn't a known generic text
+                    if (!/\d/.test(line) && 
+                        line.length > 3 && 
+                        !/success|payment|upi|bank|gpay|google|app|transaction|processing|completed|time|date/i.test(line)) {
+                        receiver = line;
+                        break;
+                    }
+                }
+            }
+
+            // Type
+            let type = 'Debit';
+            const fullTextLower = fullText.toLowerCase();
+            if (fullTextLower.includes('received') || fullTextLower.includes('credited')) {
+                type = 'Credit';
+            }
+
+            // Clean up and format Receiver name (Title Case)
+            if (receiver) {
+                const embeddedAmtMatch = receiver.match(/(?:₹|rs\.?|inr|r\$|\?|\$)\s*([\d,]+\.?\d*)/i);
+                if (embeddedAmtMatch && (!amount || amount === '0.00')) {
+                    amount = embeddedAmtMatch[1].replace(/,/g, '');
+                }
+                
+                receiver = receiver.replace(/(?:₹|rs\.?|inr|r\$|\?|\$)\s*[\d,]+\.?\d*/gi, '').trim();
+                receiver = receiver.replace(/@.*$/, '').trim();
+                
+                if (amount && amount !== '0.00') {
+                    const strippedAmt = amount.replace(/\.00$/, '');
+                    const amtRegex = new RegExp('[\\\\s]*' + strippedAmt + '$');
+                    receiver = receiver.replace(amtRegex, '').trim();
+                }
+
+                receiver = receiver.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+            }
+
+            return {
+                id: Math.random().toString(36).substring(7),
+                filename: filename,
+                receiver: receiver || 'Unknown',
+                amount: amount || '0.00',
+                date: date || new Date().toLocaleDateString(),
+                transactionId: txId || 'Not found',
+                type: type,
+                raw: fullText
+            };
+        }
+
+        window.toggleRaw = function(id) {
+            const el = document.getElementById(`raw-${id}`);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        };
+
+        function showResults() {
+            uploadStep.style.display = 'none';
+            resultStep.style.display = 'block';
+            
+            resultsContainer.innerHTML = '';
+
+            const summaryCard = document.createElement('div');
+            summaryCard.className = 'result-card';
+            summaryCard.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <i class="ri-checkbox-circle-line" style="font-size: 3rem; color: var(--success); margin-bottom: 1rem; display: block;"></i>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Successfully Processed!</h3>
+                    <p style="color: rgba(248,250,252,0.72); font-size: 1.1rem;">
+                        Extracted <strong>${extractedData.length}</strong> transactions from your uploaded files.
+                    </p>
+                </div>
+            `;
+            resultsContainer.appendChild(summaryCard);
+        }
+
+        // Export to XLSX
+        exportBtn.addEventListener('click', () => {
+            const hasEnhancedFields = extractedData.some(d => d['Google Transaction ID']);
+
+            const finalData = extractedData.map(data => {
+                let result = {};
+
+                if (hasEnhancedFields && data['Google Transaction ID']) {
+                    result['Google Transaction ID'] = data['Google Transaction ID'] || '';
+                    result['UPI RRN'] = data['UPI RRN'] || '';
+                    result['Order Type'] = data['Order Type'] || '';
+                    result['Amount'] = data['Amount'] || data.amount || '';
+                    result['Status'] = data['Status'] || '';
+                    result['Creation Time'] = data['Creation Time'] || '';
+                    result['Update Time'] = data['Update Time'] || '';
+                    result['Payer IP Address'] = data['Payer IP Address'] || '';
+                    result['User Phone Number'] = data['User Phone Number'] || '';
+                    result['User VPA'] = data['User VPA'] || '';
+                    result['Peer Phone Number'] = data['Peer Phone Number'] || '';
+                    result['Peer VPA'] = data['Peer VPA'] || '';
+                    result['User IFSC'] = data['User IFSC'] || '';
+                    result['Peer IFSC'] = data['Peer IFSC'] || '';
+                    result['Peer Account Number'] = data['Peer Account Number'] || '';
+                } else {
+                    result = {
+                        'Source File': data.filename,
+                        'Receiver / Name': data.receiver,
+                        'Amount': data.amount,
+                        'Type': data.type,
+                        'Date': data.date,
+                        'Transaction ID': data.transactionId
+                    };
+                }
+
+                return result;
+            });
+
+            const ws = XLSX.utils.json_to_sheet(finalData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "GPay Transactions");
+            
+            if (finalData.length > 0) {
+                const colWidths = Object.keys(finalData[0]).map(k => ({ wch: Math.max(k.length + 5, 20) }));
+                ws['!cols'] = colWidths;
+            }
+
+            XLSX.writeFile(wb, `GPay_Transactions_${new Date().getTime()}.xlsx`);
+            setTimeout(() => window.location.reload(), 250);
+        });
+
+        // Mobile navigation
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinksContainer = document.getElementById('nav-links');
+        const topbar = document.getElementById('topbar');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        menuToggle.addEventListener('click', () => {
+            document.body.classList.toggle('nav-open');
+        });
+
+        navLinksContainer.addEventListener('click', (event) => {
+            if (event.target.tagName.toLowerCase() === 'a') {
+                document.body.classList.remove('nav-open');
+            }
+        });
+
+        function updateNavbarState() {
+            topbar.classList.toggle('scrolled', window.scrollY > 30);
+            const scrollPosition = window.scrollY + 220;
+            navLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute('href'));
+                if (!section) return;
+                const sectionTop = section.offsetTop;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateNavbarState);
+        window.addEventListener('load', updateNavbarState);
+
+        // Back / Reset
+        backBtn.addEventListener('click', () => {
+            uploadStep.style.display = 'block';
+            resultStep.style.display = 'none';
+            dropZone.style.display = 'grid';
+            progressContainer.style.display = 'none';
+            
+            uploadedFiles = uploadedFiles.filter(f => f.status !== 'success');
+            renderFileList();
+            updateActionButtons();
+        });
+
+    </script>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPay to XLSX Converter</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tesseract.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <!-- SheetJS -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --bg-color: #050b18;
+            --panel-bg: rgba(13, 23, 42, 0.96);
+            --surface: rgba(255,255,255,0.05);
+            --surface-strong: rgba(255,255,255,0.1);
+            --border-color: rgba(255,255,255,0.08);
+            --text-main: #f8fafc;
+            --text-muted: rgba(248,250,252,0.72);
+            --primary: #ff6b35;
+            --primary-soft: rgba(255,107,53,0.14);
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top, rgba(59,130,246,0.14), transparent 20%),
+                        radial-gradient(circle at 20% 15%, rgba(255,107,53,0.1), transparent 20%),
+                        linear-gradient(180deg, #060c18 0%, #050815 100%);
+            color: var(--text-main);
+            padding: 6.5rem 1.25rem 1.5rem;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 26px 60px rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .topbar-inner {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .topbar.scrolled .topbar-inner {
+            padding: 0.55rem 1rem;
+            transition: padding 0.25s ease;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            min-width: 220px;
+        }
+
+        .brand-logo {
+            width: 180px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 1.4rem;
+            background: transparent;
+            padding: 0;
+            border: none;
+            display: block;
+        }
+
+        .brand-text {
+            display: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.3rem;
+            color: rgba(248,250,252,0.85);
+            font-size: 0.9rem;
+        }
+
+        .nav-links a {
+            color: rgba(248,250,252,0.82);
+            padding: 0.45rem 0.6rem;
+            border-radius: 999px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.08);
+            color: rgba(248,250,252,0.9);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .nav-open .nav-links {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(4, 10, 23, 0.98);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 1rem 1.25rem 1.25rem;
+            gap: 1rem;
+            z-index: 998;
+        }
+
+        .nav-open .topbar-inner {
+            flex-wrap: wrap;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-default {
+            background: rgba(255,255,255,0.05);
+            color: rgba(248,250,252,0.88);
+            padding: 0.85rem 1.25rem;
+        }
+
+        .btn-default:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #d14b28);
+            color: #ffffff;
+            padding: 0.72rem 1.25rem;
+            box-shadow: 0 16px 32px rgba(255,107,53,0.16);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .page-content {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            padding-top: 1rem;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+            justify-items: center;
+            text-align: center;
+            padding: 0.5rem 0 0;
+        }
+
+        .hero-copy {
+            max-width: 840px;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.75rem 1rem;
+            border-radius: 999px;
+            background: rgba(255,107,53,0.14);
+            color: #ffbfa5;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,107,53,0.22);
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .hero-copy h1 {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-copy h1 span {
+            color: var(--primary);
+        }
+
+        .hero-copy p {
+            color: rgba(248,250,252,0.75);
+            font-size: 1.05rem;
+            line-height: 1.9;
+            max-width: 680px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-panel {
+            width: min(880px, 100%);
+            background: rgba(10, 18, 33, 0.96);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            box-shadow: 0 45px 120px rgba(0,0,0,0.3);
+            margin: 0 auto;
+        }
+
+        .upload-card {
+            position: relative;
+            background:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+                rgba(10, 16, 30, 0.85);
+            background-size: 28px 28px, 28px 28px, 100% 100%;
+            border: 1.5px dashed rgba(255,255,255,0.12);
+            border-radius: 1.5rem;
+            padding: 3rem 2rem 2.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            display: grid;
+            gap: 0.75rem;
+            justify-items: center;
+            width: 100%;
+            max-width: 760px;
+            overflow: hidden;
+            min-height: auto;
+            align-items: center;
+            box-shadow: none;
+        }
+
+        .upload-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(59,130,246,0.04), transparent 65%);
+            pointer-events: none;
+        }
+
+        .upload-card:hover {
+            border-color: rgba(255,255,255,0.22);
+            background:
+                linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+                rgba(12, 20, 38, 0.9);
+            background-size: 28px 28px, 28px 28px, 100% 100%;
+        }
+
+        .upload-card .upload-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.8rem;
+            height: 3.8rem;
+            border-radius: 1.1rem;
+            background: rgba(255,255,255,0.06);
+            color: rgba(200, 210, 230, 0.7);
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .upload-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.15rem;
+            color: rgba(248,250,252,0.92);
+            font-weight: 600;
+        }
+
+        .upload-card p {
+            color: rgba(248,250,252,0.48);
+            line-height: 1.6;
+            margin-bottom: 0;
+            max-width: 420px;
+            font-size: 0.9rem;
+        }
+
+        .upload-types {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.6rem;
+        }
+
+        .upload-types span {
+            padding: 0.45rem 1rem;
+            border-radius: 0.6rem;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(248,250,252,0.7);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+        }
+
         .upload-card input[type="file"] {
             position: absolute;
             inset: 0;
@@ -1757,3 +3788,4 @@
     </script>
 </body>
 </html>
+>>>>>>> 4a93f534dbf1b34d4c85818cfa175ef6a8a96e8f
