@@ -655,6 +655,33 @@
             display: grid;
         }
 
+        .download-options {
+            display: none;
+            margin-top: 1.25rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .download-options h4 {
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .download-options p {
+            color: rgba(248,250,252,0.72);
+            font-size: 0.9rem;
+        }
+
+        .download-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 0.9rem;
+            justify-content: center;
+        }
+
         .progress-bar {
             width: 100%;
             height: 0.75rem;
@@ -970,8 +997,21 @@
                             <i class="ri-ai-generate"></i> Process Images
                         </button>
                         <button class="btn btn-primary" id="upload-export-btn" style="display: none; max-width: 240px;">
-                            <i class="ri-file-excel-2-line"></i> Export PDF to XLSX
+                            <i class="ri-file-excel-2-line"></i> Convert PDF to XLSX
                         </button>
+                    </div>
+
+                    <div class="download-options" id="download-options">
+                        <h4>Conversion Complete</h4>
+                        <p id="download-options-status">Choose how you want to download your XLSX files.</p>
+                        <div class="download-actions">
+                            <button class="btn btn-primary" id="download-merged-btn" type="button">
+                                <i class="ri-file-excel-2-line"></i> Download Merged XLSX
+                            </button>
+                            <button class="btn btn-default" id="download-individual-btn" type="button">
+                                <i class="ri-download-2-line"></i> Download Individual XLSX Files
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -1090,6 +1130,10 @@
         const progressStatus = document.getElementById('progress-status');
         const progressFill = document.getElementById('progress-fill');
         const progressPercent = document.getElementById('progress-percent');
+        const downloadOptions = document.getElementById('download-options');
+        const downloadOptionsStatus = document.getElementById('download-options-status');
+        const downloadMergedBtn = document.getElementById('download-merged-btn');
+        const downloadIndividualBtn = document.getElementById('download-individual-btn');
         
         const uploadStep = document.getElementById('upload-step');
         const resultStep = document.getElementById('result-step');
@@ -1101,6 +1145,7 @@
         let uploadedFiles = [];
         let extractedData = [];
         let currentMode = 'gpay';
+        let preparedPdfDownloads = null;
 
         // Event Listeners for File Upload
         dropZone.addEventListener('dragover', (e) => {
@@ -1137,6 +1182,7 @@
             }
             uploadedFiles = [];
             extractedData = [];
+            resetPreparedPdfDownloads();
             renderFileList();
             updateActionButtons();
             progressContainer.style.display = 'none';
@@ -1155,16 +1201,29 @@
                 return file.type.startsWith('image/') || file.type === 'application/pdf';
             });
 
-            uploadedFiles = newFiles.map(file => {
-                return {
-                    id: Math.random().toString(36).substring(7),
-                    file,
-                    status: 'pending',
-                    data: null
-                };
+            const existingKeys = new Set(uploadedFiles.map(f => `${f.file.name}_${f.file.size}_${f.file.lastModified}`));
+            const uniqueNewFiles = newFiles.filter(file => {
+                const key = `${file.name}_${file.size}_${file.lastModified}`;
+                if (existingKeys.has(key)) return false;
+                existingKeys.add(key);
+                return true;
             });
 
+            const mappedNewFiles = uniqueNewFiles.map(file => ({
+                id: Math.random().toString(36).substring(7),
+                file,
+                status: 'pending',
+                data: null
+            }));
+
+            uploadedFiles = [...uploadedFiles, ...mappedNewFiles].map(fileObj => ({
+                ...fileObj,
+                status: 'pending',
+                data: null
+            }));
+
             extractedData = [];
+            resetPreparedPdfDownloads();
             progressContainer.style.display = 'none';
             progressFill.style.width = '0%';
             progressPercent.innerText = '0%';
@@ -1193,6 +1252,7 @@
 
         window.removeFile = function(id) {
             uploadedFiles = uploadedFiles.filter(f => f.id !== id);
+            resetPreparedPdfDownloads();
             renderFileList();
             updateActionButtons();
         };
@@ -1243,6 +1303,120 @@
             const overallProgress = ((completed / total) * 100) + (fileProgress / total);
             progressFill.style.width = `${overallProgress}%`;
             progressPercent.innerText = `${Math.round(overallProgress)}%`;
+        }
+
+        function resetPreparedPdfDownloads() {
+            preparedPdfDownloads = null;
+            downloadOptions.style.display = 'none';
+            downloadOptionsStatus.innerText = 'Choose how you want to download your XLSX files.';
+            downloadMergedBtn.style.display = 'inline-flex';
+            downloadMergedBtn.innerHTML = '<i class="ri-file-excel-2-line"></i> Download Merged XLSX';
+            downloadIndividualBtn.style.display = 'inline-flex';
+        }
+
+        function getTimestampToken() {
+            return new Date().toISOString().replace(/[:\-T]/g, '').slice(0, 14);
+        }
+
+        function getXlsxFileNameFromOriginal(fileName) {
+            const trimmed = (fileName || '').trim();
+            if (!trimmed) return 'Output.xlsx';
+            const dotIndex = trimmed.lastIndexOf('.');
+            if (dotIndex > 0) {
+                return `${trimmed.slice(0, dotIndex)}.xlsx`;
+            }
+            return `${trimmed}.xlsx`;
+        }
+
+        function updateDownloadOptionButtons(pdfCount) {
+            if (pdfCount <= 1) {
+                downloadMergedBtn.style.display = 'inline-flex';
+                downloadMergedBtn.innerHTML = '<i class="ri-file-excel-2-line"></i> Download XLSX';
+                downloadIndividualBtn.style.display = 'none';
+                return;
+            }
+
+            downloadMergedBtn.style.display = 'inline-flex';
+            downloadMergedBtn.innerHTML = '<i class="ri-file-excel-2-line"></i> Download Merged XLSX';
+            downloadIndividualBtn.style.display = 'inline-flex';
+        }
+
+        function buildExportRows(rows, mode) {
+            if (mode === 'bank') {
+                return rows.map(data => ({
+                    'Date': data['Date'] || '',
+                    'ID': data['ID'] || '',
+                    'Tran Ref Num Particulars': data['Tran Ref Num Particulars'] || '',
+                    'Debit Amt': data['Debit Amt'] || '',
+                    'Credit Amt': data['Credit Amt'] || '',
+                    'Balance Amt': data['Balance Amt'] || '',
+                    'Source File': data['Source File'] || data.filename || ''
+                }));
+            }
+
+            const hasEnhancedFields = rows.some(d => d['Google Transaction ID']);
+            return rows.map(data => {
+                if (hasEnhancedFields && data['Google Transaction ID']) {
+                    return {
+                        'Source File': data.filename || '',
+                        'Google Transaction ID': data['Google Transaction ID'] || '',
+                        'UPI RRN': data['UPI RRN'] || '',
+                        'Order Type': data['Order Type'] || '',
+                        'Amount': data['Amount'] || data.amount || '',
+                        'Status': data['Status'] || '',
+                        'Creation Time': data['Creation Time'] || '',
+                        'Update Time': data['Update Time'] || '',
+                        'Payer IP Address': data['Payer IP Address'] || '',
+                        'User Phone Number': data['User Phone Number'] || '',
+                        'User VPA': data['User VPA'] || '',
+                        'Peer Phone Number': data['Peer Phone Number'] || '',
+                        'Peer VPA': data['Peer VPA'] || '',
+                        'User IFSC': data['User IFSC'] || '',
+                        'Peer IFSC': data['Peer IFSC'] || '',
+                        'Peer Account Number': data['Peer Account Number'] || ''
+                    };
+                }
+                return {
+                    'Source File': data.filename || '',
+                    'Receiver / Name': data.receiver || '',
+                    'Amount': data.amount || '',
+                    'Type': data.type || '',
+                    'Date': data.date || '',
+                    'Transaction ID': data.transactionId || ''
+                };
+            });
+        }
+
+        function downloadRowsAsWorkbook(rows, fileName, mode, options = {}) {
+            const allowEmpty = Boolean(options.allowEmpty);
+            const emptyMessage = options.emptyMessage || 'No data extracted from source PDF.';
+            const safeRows = Array.isArray(rows) ? rows : [];
+
+            if (safeRows.length === 0 && !allowEmpty) {
+                alert('No data available for download.');
+                return;
+            }
+
+            const ws = safeRows.length > 0
+                ? XLSX.utils.json_to_sheet(safeRows)
+                : XLSX.utils.aoa_to_sheet([[emptyMessage]]);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, mode === 'bank' ? 'Bank Statement' : 'Transactions');
+            if (safeRows.length > 0) {
+                ws['!cols'] = Object.keys(safeRows[0]).map(key => ({ wch: Math.max(20, key.length + 5) }));
+            }
+            const workbookBytes = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            const blob = new Blob([workbookBytes], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            });
+            const link = document.createElement('a');
+            const blobUrl = URL.createObjectURL(blob);
+            link.href = blobUrl;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
         }
 
         async function extractTransactionsFromPDF(fileObj, completed, total) {
@@ -1353,11 +1527,14 @@
                 return;
             }
 
+            resetPreparedPdfDownloads();
             uploadExportBtn.style.display = 'none';
             processBtn.style.display = 'none';
             progressContainer.style.display = 'block';
             dropZone.style.display = 'none';
             progressStatus.innerText = 'Converting PDF to XLSX...';
+            progressFill.style.width = '0%';
+            progressPercent.innerText = '0%';
             extractedData = [];
 
             let completed = 0;
@@ -1389,57 +1566,35 @@
                 return;
             }
 
-            const hasEnhancedFields = extractedData.some(d => d['Google Transaction ID']);
-            const finalData = currentMode === 'bank'
-                ? extractedData.map(data => ({
-                    'Date': data['Date'] || '',
-                    'ID': data['ID'] || '',
-                    'Tran Ref Num Particulars': data['Tran Ref Num Particulars'] || '',
-                    'Debit Amt': data['Debit Amt'] || '',
-                    'Credit Amt': data['Credit Amt'] || '',
-                    'Balance Amt': data['Balance Amt'] || ''
-                }))
-                : extractedData.map(data => {
-                    if (hasEnhancedFields && data['Google Transaction ID']) {
-                        return {
-                            'Google Transaction ID': data['Google Transaction ID'] || '',
-                            'UPI RRN': data['UPI RRN'] || '',
-                            'Order Type': data['Order Type'] || '',
-                            'Amount': data['Amount'] || data.amount || '',
-                            'Status': data['Status'] || '',
-                            'Creation Time': data['Creation Time'] || '',
-                            'Update Time': data['Update Time'] || '',
-                            'Payer IP Address': data['Payer IP Address'] || '',
-                            'User Phone Number': data['User Phone Number'] || '',
-                            'User VPA': data['User VPA'] || '',
-                            'Peer Phone Number': data['Peer Phone Number'] || '',
-                            'Peer VPA': data['Peer VPA'] || '',
-                            'User IFSC': data['User IFSC'] || '',
-                            'Peer IFSC': data['Peer IFSC'] || '',
-                            'Peer Account Number': data['Peer Account Number'] || ''
-                        };
-                    }
-                    return {
-                        'Source File': data.filename || '',
-                        'Receiver / Name': data.receiver || '',
-                        'Amount': data.amount || '',
-                        'Type': data.type || '',
-                        'Date': data.date || '',
-                        'Transaction ID': data.transactionId || ''
-                    };
-                });
+            const timestamp = getTimestampToken();
+            const successfulFiles = filesToProcess.filter(fileObj => fileObj.status === 'success' && Array.isArray(fileObj.data) && fileObj.data.length > 0);
+            const prefix = currentMode === 'bank' ? 'Bank_Statement' : 'Transactions';
+            const mergedFileName = filesToProcess.length === 1
+                ? getXlsxFileNameFromOriginal(filesToProcess[0].file.name)
+                : `${prefix}_Merged_${timestamp}.xlsx`;
 
-            const ws = XLSX.utils.json_to_sheet(finalData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, currentMode === 'bank' ? 'Bank Statement' : 'Transactions');
-            if (finalData.length > 0) {
-                ws['!cols'] = Object.keys(finalData[0]).map(k => ({ wch: Math.max(20, k.length + 5) }));
+            preparedPdfDownloads = {
+                mode: currentMode,
+                mergedRows: buildExportRows(extractedData, currentMode),
+                mergedFileName: mergedFileName,
+                individualFiles: filesToProcess.map(fileObj => ({
+                    originalFileName: fileObj.file.name,
+                    rows: Array.isArray(fileObj.data) ? buildExportRows(fileObj.data, currentMode) : [],
+                    fileName: getXlsxFileNameFromOriginal(fileObj.file.name)
+                }))
+            };
+
+            if (filesToProcess.length === 1) {
+                downloadOptionsStatus.innerText = 'Converted 1 PDF file. Click download to save your XLSX.';
+            } else {
+                downloadOptionsStatus.innerText = `Processed ${filesToProcess.length} PDF files (${successfulFiles.length} successful). Choose merged or individual download.`;
             }
-            XLSX.writeFile(wb, `${currentMode === 'bank' ? 'Bank_Statement' : 'Transactions'}_${new Date().getTime()}.xlsx`);
-            setTimeout(() => window.location.reload(), 250);
+            updateDownloadOptionButtons(filesToProcess.length);
+            downloadOptions.style.display = 'block';
 
             progressContainer.style.display = 'none';
             dropZone.style.display = 'grid';
+            progressStatus.innerText = 'Conversion complete. Use the download buttons below.';
             updateActionButtons();
         }
 
@@ -1447,8 +1602,38 @@
             await exportUploadedPDFsDirectly();
         });
 
+        downloadMergedBtn.addEventListener('click', () => {
+            if (!preparedPdfDownloads || !preparedPdfDownloads.mergedRows || preparedPdfDownloads.mergedRows.length === 0) {
+                alert('Please convert PDF files first.');
+                return;
+            }
+
+            downloadRowsAsWorkbook(
+                preparedPdfDownloads.mergedRows,
+                preparedPdfDownloads.mergedFileName,
+                preparedPdfDownloads.mode
+            );
+        });
+
+        downloadIndividualBtn.addEventListener('click', () => {
+            if (!preparedPdfDownloads || !preparedPdfDownloads.individualFiles || preparedPdfDownloads.individualFiles.length === 0) {
+                alert('No individual files are ready. Please convert PDF files first.');
+                return;
+            }
+
+            const individualFiles = [...preparedPdfDownloads.individualFiles];
+            const mode = preparedPdfDownloads.mode;
+            individualFiles.forEach((entry) => {
+                downloadRowsAsWorkbook(entry.rows, entry.fileName, mode, {
+                    allowEmpty: true,
+                    emptyMessage: `No data extracted from ${entry.originalFileName}.`
+                });
+            });
+        });
+
         // Processing Logic
         processBtn.addEventListener('click', async () => {
+            resetPreparedPdfDownloads();
             processBtn.style.display = 'none';
             progressContainer.style.display = 'block';
             dropZone.style.display = 'none';
@@ -2019,6 +2204,7 @@
             resultStep.style.display = 'none';
             dropZone.style.display = 'grid';
             progressContainer.style.display = 'none';
+            resetPreparedPdfDownloads();
             
             uploadedFiles = uploadedFiles.filter(f => f.status !== 'success');
             renderFileList();
